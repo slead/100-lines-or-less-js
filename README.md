@@ -20,7 +20,7 @@ Be the first to submit!
 ## How to Enter
 1. Fork and then clone this repo.
 2. Add a folder to the repo with your app in it (see example).
-3. Make a pull request to submit your entry. This request represents your agreement to the [Terms and Conditions](http://esri.github.com/100-lines-or-less-js/Terms and Conditions Agreement.pdf).
+3. Make a pull request to submit your entry. This request represents your agreement to the [Terms and Conditions](http://edn1.esri.com/terms%20and%20conditions%20agreement.pdf).
 
 NOTE: Be sure to Pull and Merge from this repo to get the latest before making your pull request!
 
@@ -34,7 +34,7 @@ NOTE: Be sure to Pull and Merge from this repo to get the latest before making y
 6. Applications must be freely distributable via Apache 2.0 license.
 7. IMPORTANT: Libraries other than the ArcGIS API for JavaScript can be used and do not count toward the 100 line limit. Libraries referenced must be published and publicly available prior to March 1, 2013.  So that means you can't write libraries to hide your ArcGIS code!  You can use previously published ArcGIS libraries however.
 
-See all rules, terms and conditions [here](http://alaframboise.github.com/100-lines-or-less-js/Terms and Conditions Agreement.pdf).
+See all rules, terms and conditions [here](http://edn1.esri.com/terms%20and%20conditions%20agreement.pdf).
 
 ## What can I win?
 1. One year ArcGIS Online Subscription & Esri International Developer Summit Pass for 2014
@@ -96,7 +96,7 @@ Follow the structure of [this](https://github.com/Esri/100-lines-or-less-js/tree
 * [@esri](http://twitter.com/esri)
 
 ## Licensing
-Copyright 2012 Esri
+Copyright 2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
