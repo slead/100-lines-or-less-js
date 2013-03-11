@@ -11,7 +11,9 @@ Best of luck!
 
 ## Current Entries
 
-Be the first to submit!
+1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](https://github.com/marcos-fedato)
+2.
+3.
 
 ## Contest Period
 - Starts: 9:00 AM PST Friday, Mar 8, 2013
