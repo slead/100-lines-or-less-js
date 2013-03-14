@@ -127,6 +127,10 @@ html, body {
     cursor: pointer;
 }
 
+.answer {
+    font-weight: bold;
+}
+
 .space, #word li.space {
    border: 0px;
 }
