@@ -6,7 +6,8 @@ dojo.ready(function() {
   map = new esri.Map("map", options);
   dojo.connect(map, "onLoad", mapLoad);
   $('.keyboard li').click(function() {
-    validadeRound(cChars.push($(this).html()));
+    if(cChars.length!=0 && $.inArray($(this).text(),cChars) != -1) return;
+    validadeRound(cChars.push($(this).html()));    
   });
   $('.nextRound').click(function() { nextRound(); });
   $('.restart').click(function() {
@@ -32,7 +33,7 @@ function mapLoad() {
   queryTask.execute(query);
 }
 function startRound() {   
-  stListRd = $.shuffle(stlist); 
+  stListRd = $.shuffle(stlist.slice());
   nextRound();  
   $('.loadLbl').hide(); 
   $('.ginfo').show();
@@ -40,12 +41,12 @@ function startRound() {
 function nextRound() {
   errCnt = 0;
   addGraphics(stftSet.features, smb);
-  drawWord(cWord = stListRd.shift(), cChars = new Array());
+  drawWord(cWord = stListRd.shift(),cChars = new Array());
   map.setExtent(initExtent);
   $("#mistakes").removeClass();
   $('#next').hide();
 }
-function validadeRound() {
+function validadeRound() {    
   if(!hasChars(cWord, cChars)) { Error(); return;  }
   drawWord(cWord, cChars); 
   addGraphics(getFeaturesByChars(cChars), smb);   
@@ -57,6 +58,7 @@ function validadeRound() {
 }
 function Error() {
   cChars.pop();
+  $('.answer').text(cWord);
   $("#mistakes").removeClass().addClass('hangman' + ++errCnt);
   if(errCnt == 6) $('#fail').removeClass('hideOverlay');
 }
@@ -75,8 +77,8 @@ function getFeaturesByChars(chars) {
 function hasChars(word, chList) {
   var result = word.match(RegExp('['+chList.join('+')+']','gi'));
   if(result == null) return false;
-  return $.unique($.map(result,function(ch,i){
-  return ch.toLowerCase();})).length==chList.length;
+  return result.filter(function(itm,i,a){ return i==a
+  .indexOf(itm.toLowerCase())}).length==chList.length;
 }
 function drawWord(word, c) {
   var charList = '';
