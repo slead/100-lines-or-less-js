@@ -12,7 +12,7 @@ Best of luck!
 ## Current Entries
 
 1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](https://github.com/marcos-fedato)
-2. [Maps Hangman Game](https://github.com/Esri/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](https://github.com/vmachuca)
+2. [Maps Hangman Game](http://esri.github.com/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](https://github.com/vmachuca)
 3. 
 
 ## Contest Period
