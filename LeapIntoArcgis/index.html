@@ -7,11 +7,18 @@
     <title>Leap (Motion) Into ArcGIS</title>
     <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css">
     <script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3compact"></script>
+    <!-- leap motion js api as of Feb 28, 2013 : https://github.com/leapmotion/leapjs/blob/fa61670a5e81bfacdde2d52aecc6acd136475b5d/leap.js -->
+    <script src="https://raw.github.com/leapmotion/leapjs/fa61670a5e81bfacdde2d52aecc6acd136475b5d/leap.js"></script>
     <!-- Load my JavaScript and CSS -->
     <link rel="stylesheet" type="text/css" href="css/leapintoarcgis.css">
     <script src="js/leapintoarcgis.js"></script>
   </head>
   <body>
     <div id="mapDiv"></div>
+    <div class="ontopmap">
+      Leap Motion Detected!
+      <div id="leapOutput">
+      </div>
+    </div>
   </body>
 </html>

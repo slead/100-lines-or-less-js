@@ -23,7 +23,7 @@ html, body {
 .panel {
 	position: absolute;
 	top: 10px;
-	left: 50px;
+	right: 50px;
 	/*width:100%;*/
   margin-right:50px;
 	padding: 10px;
