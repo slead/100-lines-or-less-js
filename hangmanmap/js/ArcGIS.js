@@ -41,7 +41,7 @@ function startRound() {
 function nextRound() {
   errCnt = 0;
   addGraphics(stftSet.features, smb);
-  drawWord(cWord = stListRd.shift(),cChars = new Array());
+  drawWord(cWord = stListRd.shift().toUpperCase(),cChars = new Array());
   map.setExtent(initExtent);
   $("#mistakes").removeClass();
   $('#next').hide();
@@ -78,7 +78,7 @@ function hasChars(word, chList) {
   var result = word.match(RegExp('['+chList.join('+')+']','gi'));
   if(result == null) return false;
   return result.filter(function(itm,i,a){ return i==a
-  .indexOf(itm.toLowerCase())}).length==chList.length;
+  .indexOf(itm)}).length==chList.length;
 }
 function drawWord(word, c) {
   var charList = '';
