@@ -1,26 +1,73 @@
 dojo.require("esri.map");
-var map, canvas, previousGesture, controllerOptions = {enableGestures: true};
+var map, canvas, btnC, prevGesture, controllerOptions = {enableGestures: true},
+  pauseGestureProcessing = false, isCalibrating = true, lastX = 0, lastY = 0,
+  calib = {left:-60, top:300, right:60, bottom:100}, isCalibrating=false, cdot;
+  
 function init(){
-  map = new esri.Map("mapDiv", {
-    center: [-84, 32],
-    zoom: 5,
-    basemap: "gray"
-  });
-  canvas = document.createElement("canvas");
+  map = new esri.Map("mapDiv", { center: [-84, 32], zoom: 5, basemap: "gray" });
+  canvas = document.getElementById("canvasLayer");
   canvas.setAttribute("width", window.innerWidth);
   canvas.setAttribute("height", window.innerHeight);
-  canvas.setAttribute("style", "position: absolute; x:0; y:0;");
-  document.body.appendChild(canvas);
+  
+  btnC = document.getElementById("btnCalibrate");
+  btnC.onclick = calibrateScreen;
+  
+  cdot = document.getElementById("cdot");
 }
 dojo.ready(init);
+
+var calibTimeout = 2250;
+function calibrateScreen() {
+  isCalibrating = true;
+  calib = {left:9999, top:-9999, right:-9999, bottom:9999};
+  tempPauseGestures(calibTimeout*2/1000);
+  calibrateDot(1);
+  setTimeout (function(){calibrateDot(2);}, calibTimeout);
+  setTimeout (function(){
+      isCalibrating=false;
+      cdot.setAttribute("class","");
+  }, calibTimeout*2);
+}
+
+function calibrateDot(count) {
+  cdot.setAttribute("class","cdot_pos" + count);
+  setTimeout (function(){
+    calib.left = Math.min(calib.left, lastX);
+    calib.right = Math.max(calib.right, lastX);
+    calib.bottom = Math.min(calib.bottom, lastY);
+    calib.top = Math.max(calib.top, lastY);
+  }, calibTimeout-500);
+}
+
+function drawCircle(x, y, radius, color) {
+  var context = canvas.getContext('2d');
+  context.beginPath();
+  context.arc(x, y, radius, 0, 2*Math.PI, false);
+  context.fillStyle = color;
+  context.fill();
+}
+
+function calibratedPoint(px, py) {
+  return { x:map.width * (px  - calib.left) / (calib.right - calib.left),
+    y:map.height - map.height * (py - calib.bottom) / (calib.top - calib.bottom)};
+}
+
+function drawPointable(p) {
+  var cp = calibratedPoint(p.tipPosition[0], p.tipPosition[1]);
+  drawCircle(cp.x, cp.y,10, '#f00');
+}
 
 Leap.loop(controllerOptions, function(frame) {
   
   if (frame.pointables.length > 0) {
-    var ctx = canvas.getContext("2d");
-    for (var i = 0; i < frame.pointables.length; i++) {
-      var p = frame.pointables[i];
-      ctx.fillRect(p.tipPosition[0],p.tipPosition[1],10,10);
+    if(!isCalibrating) {
+      canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
+      for (var i = 0; i < frame.pointables.length; i++) {
+        drawPointable(frame.pointables[i]);
+      }
+    } else {
+      lastX = frame.pointables[0].tipPosition[0];
+      lastY = frame.pointables[0].tipPosition[1];
     }
   }
   
@@ -28,9 +75,12 @@ Leap.loop(controllerOptions, function(frame) {
   
     for (var i = 0; i < frame.gestures.length; i++) {
       var gesture = frame.gestures[i];
-      if(previousGesture !== undefined && previousGesture.id === gesture.id)
+      if(prevGesture !== undefined && prevGesture.id === gesture.id)
         break;
-        
+      prevGesture = gesture;
+      
+      if(pauseGestureProcessing) continue;
+      
       switch (gesture.type) {
         case "circle":
           handleCircle(gesture);
@@ -39,35 +89,40 @@ Leap.loop(controllerOptions, function(frame) {
           handleSwipe(gesture);
           break;
         case "screenTap":
-        case "keyTap":
           handleTap(gesture);
           break;
       }
-      previousGesture = gesture;
     }
   }
 });
 
 function handleCircle(gesture) {
-    map.setLevel(map.getLevel() - 1);
-    tempPauseGestures();
-    outputLeapMessage("...zooming out...");
+  if(gesture.radius < 5) return;
+  map.setLevel(map.getLevel() + 1);
+  var cen = map.toMap(calibratedPoint(gesture.center[0], gesture.center[1]));
+  map.centerAt(cen);
+  tempPauseGestures(1.5);
+  outputLeapMessage("...zooming in...");
 }
 function handleSwipe(gesture) {
-    outputLeapMessage("...swipe detected...");
+  map.setLevel(map.getLevel() - 1);
+  tempPauseGestures(1.5);
+  outputLeapMessage("...zooming out...");
 }
 function handleTap(gesture) {
-    map.setLevel(map.getLevel() + 1);
-    tempPauseGestures();
-    outputLeapMessage("...zooming in...");
+  map.setLevel(map.getLevel() + 1);
+  var cp = calibratedPoint(gesture.position[0], gesture.position[1]);
+  map.centerAt(map.toMap(cp));
+  tempPauseGestures(1.5);
+  outputLeapMessage("...zooming in...");
 }
 
-function tempPauseGestures() {
-  controllerOptions.enableGestures = false;
-  setTimeout(unpauseGestures, 1000);
+function tempPauseGestures(seconds) {
+  pauseGestureProcessing = true;
+  setTimeout(unpauseGestures, seconds * 1000);
 }
 function unpauseGestures(msg) {
-  controllerOptions.enableGestures = true;
+  pauseGestureProcessing = false;
 }
 function outputLeapMessage(msg) {
   var leapOutput = document.getElementById("leapOutput");

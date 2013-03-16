@@ -19,4 +19,37 @@ html,body,.map.container {
 	right: 15px;
   background-color: #fafafa;
   padding: 20px;
+  text-align: center;
+}
+
+.button {
+  padding: 10px;
+  background-color:#121212;
+  color:#efefef;
+  font-weight: bold;
+}
+.overlayCanvas {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#cdot {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+  content:url("../images/calibration_dot.gif");
+  width: 80px;
+  height: 80px;
+  visibility:hidden;
+}
+.cdot_pos1 {
+	top: 15% !important;
+	left: 15% !important;
+  visibility:visible !important;
+}
+.cdot_pos2 {
+	top: 75% !important;
+	left: 75% !important;
+  visibility:visible !important;
 }
