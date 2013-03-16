@@ -1,22 +1,19 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, prevGesture, lastX, lastY, showPointables=true, 
-  pauseGestureProcessing = false, controllerOptions = {enableGestures: true},
-  calib = {left:-60, top:300, right:60, bottom:100}, isZooming=false;
+  pauseGestureProcessing=false, controllerOptions={enableGestures: true},
+  calib={left:-60, top:300, right:60, bottom:100}, isZooming=false, leapOutput;
   
 function init(){
   map = new esri.Map("mapDiv", { center: [-84, 32], zoom: 5, basemap: "gray" });
-  
   dojo.connect(map, "onZoomStart", zoomStartHandler);
   dojo.connect(map, "onZoomEnd", zoomEndHandler);
-  
   canvas = document.getElementById("canvasLayer");
   canvas.setAttribute("width", window.innerWidth);
   canvas.setAttribute("height", window.innerHeight);
-  
   btnC = document.getElementById("btnCalibrate");
   btnC.onclick = calibrateScreen;
-  
   cdot = document.getElementById("cdot");
+  leapOutput = document.getElementById("leapOutput");
 }
 dojo.ready(init);
 
@@ -24,6 +21,7 @@ function zoomStartHandler(extent, zoomFactor, anchor, level){
   isZooming = true;
   canvas.setAttribute("style", "display:none");
 }
+
 function zoomEndHandler(extent, zoomFactor, anchor, level){
   isZooming = false;
   canvas.setAttribute("style", "display:block");
@@ -62,8 +60,8 @@ function drawCircle(x, y, radius, color, alpha) {
 }
 
 function calibratedPoint(px, py) {
-  return { x:map.width * (px  - calib.left) / (calib.right - calib.left),
-    y:map.height - map.height * (py - calib.bottom) / (calib.top - calib.bottom)};
+  return {x:map.width*(px-calib.left)/(calib.right-calib.left),
+    y:map.height-map.height*(py-calib.bottom)/(calib.top-calib.bottom)};
 }
 
 function drawPointable(p) {
@@ -91,12 +89,9 @@ Leap.loop(controllerOptions, function(frame) {
   
     for (var i = 0; i < frame.gestures.length; i++) {
       var gesture = frame.gestures[i];
-      if(prevGesture !== undefined && prevGesture.id === gesture.id)
-        break;
+      if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
-      
       if(pauseGestureProcessing || isZooming) continue;
-      
       switch (gesture.type) {
         case "circle":
           handleCircle(gesture);
@@ -111,7 +106,6 @@ Leap.loop(controllerOptions, function(frame) {
     }
   }
 });
-
 function handleCircle(gest) {
   if(gest.radius < 5) return;
   var r = gest.radius, c = gest.center;
@@ -132,14 +126,11 @@ function handleTap(gesture) {
   tempPauseGestures(1.5);
   outputLeapMessage("...centering map...");
 }
-
 function tempPauseGestures(seconds) {
   pauseGestureProcessing = true;
   setTimeout(function(){pauseGestureProcessing = false;}, seconds * 1000);
 }
-
 function outputLeapMessage(msg) {
-  var leapOutput = document.getElementById("leapOutput");
   leapOutput.innerHTML = msg;
   setTimeout(function(){leapOutput.innerHTML = ""}, 2000);
 }
