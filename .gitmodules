@@ -1,3 +1,0 @@
-[submodule "LeapIntoArcGIS/js/externals/leapmotion"]
-	path = LeapIntoArcGIS/js/externals/leapmotion
-	url = https://github.com/leapmotion/leapjs.git
