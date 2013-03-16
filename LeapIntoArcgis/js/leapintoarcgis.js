@@ -90,16 +90,12 @@ Leap.loop(controllerOptions, function(frame) {
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
       if(pauseGestureProcessing || isZooming) continue;
-      switch (gesture.type) {
-        case "circle":
-          handleCircle(gesture);
-          break;
-        case "swipe":
-          handleSwipe(gesture);
-          break;
-        case "screenTap":
-          handleTap(gesture);
-          break;
+      if(gesture.type == "circle") {
+        handleCircle(gesture);
+      } else if (gesture.type == "swipe") {
+        handleSwipe(gesture);
+      } else if (gesture.type == "screenTap") {
+        handleTap(gesture);
       }
     }
   }
@@ -120,12 +116,12 @@ function handleTap(gesture) {
   map.centerAt(map.toMap(calibratedPoint(gesture.position[0], gesture.position[1])));
   outputGestureMessage("...centering map...");
 }
-function tempPauseGestures(seconds) {
-  pauseGestureProcessing = true;
-  setTimeout(function(){pauseGestureProcessing = false;}, seconds * 1000);
-}
 function outputGestureMessage(msg) {
   tempPauseGestures(1.5);
   leapOutput.innerHTML = msg;
   setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 2000);
+}
+function tempPauseGestures(seconds) {
+  pauseGestureProcessing = true;
+  setTimeout(function(){pauseGestureProcessing = false;}, seconds * 1000);
 }
