@@ -127,11 +127,10 @@ function handleSwipe(gesture) {
   outputLeapMessage("...zooming out...");
 }
 function handleTap(gesture) {
-  map.setLevel(map.getLevel() + 1);
   var cp = calibratedPoint(gesture.position[0], gesture.position[1]);
   map.centerAt(map.toMap(cp));
   tempPauseGestures(1.5);
-  outputLeapMessage("...zooming in...");
+  outputLeapMessage("...centering map...");
 }
 
 function tempPauseGestures(seconds) {
