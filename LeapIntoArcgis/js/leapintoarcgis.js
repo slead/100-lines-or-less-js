@@ -1,7 +1,7 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, prevGesture, lastX, lastY, showPointables=true, 
   pauseGestureProcessing = false, controllerOptions = {enableGestures: true},
-  calib = {left:-60, top:300, right:60, bottom:100}, isZooming=true;
+  calib = {left:-60, top:300, right:60, bottom:100}, isZooming=false;
   
 function init(){
   map = new esri.Map("mapDiv", { center: [-84, 32], zoom: 5, basemap: "gray" });
