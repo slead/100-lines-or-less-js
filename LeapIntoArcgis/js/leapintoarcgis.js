@@ -52,8 +52,9 @@ function calibrateDot(count) {
   }, calibTimeout-500);
 }
 
-function drawCircle(x, y, radius, color) {
+function drawCircle(x, y, radius, color, alpha=.5) {
   var context = canvas.getContext('2d');
+  context.globalAlpha = alpha;
   context.beginPath();
   context.arc(x, y, radius, 0, 2*Math.PI, false);
   context.fillStyle = color;
