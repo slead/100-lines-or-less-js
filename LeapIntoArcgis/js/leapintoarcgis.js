@@ -59,13 +59,13 @@ function drawCircle(x, y, radius, color, alpha) {
   context.fill();
 }
 
-function calibratedPoint(px, py) {
+function toScreen(px, py) {
   return {x:map.width*(px-calib.left)/(calib.right-calib.left),
     y:map.height-map.height*(py-calib.bottom)/(calib.top-calib.bottom)};
 }
 
 function drawPointable(p) {
-  var cp = calibratedPoint(p.tipPosition[0], p.tipPosition[1]);
+  var cp = toScreen(p.tipPosition[0], p.tipPosition[1]);
   drawCircle(cp.x, cp.y,10, '#f00', .5);
 }
 
@@ -103,8 +103,8 @@ Leap.loop(controllerOptions, function(frame) {
 function handleCircle(gest) {
   if(gest.radius < 5) return;
   var r = gest.radius, c = gest.center;
-  var tl = map.toMap(calibratedPoint(c[0]-r, c[1]+r));
-  var br = map.toMap(calibratedPoint(c[0]+r, c[1]-r));
+  var tl = map.toMap(toScreen(c[0]-r, c[1]+r));
+  var br = map.toMap(toScreen(c[0]+r, c[1]-r));
   map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, map.spatialReference));
   outputGestureMessage("...zooming to extent...");
 }
@@ -113,7 +113,7 @@ function handleSwipe(gesture) {
   outputGestureMessage("...zooming out...");
 }
 function handleTap(gesture) {
-  map.centerAt(map.toMap(calibratedPoint(gesture.position[0], gesture.position[1])));
+  map.centerAt(map.toMap(toScreen(gesture.position[0], gesture.position[1])));
   outputGestureMessage("...centering map...");
 }
 function outputGestureMessage(msg) {
