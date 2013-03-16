@@ -1,10 +1,14 @@
 dojo.require("esri.map");
-var map, canvas, btnC, cdot, prevGesture, lastX, lastY, isCalibrating=false, 
+var map, canvas, btnC, cdot, prevGesture, lastX, lastY, showPointables=true, 
   pauseGestureProcessing = false, controllerOptions = {enableGestures: true},
-  calib = {left:-60, top:300, right:60, bottom:100};
+  calib = {left:-60, top:300, right:60, bottom:100}, isZooming=true;
   
 function init(){
   map = new esri.Map("mapDiv", { center: [-84, 32], zoom: 5, basemap: "gray" });
+  
+  dojo.connect(map, "onZoomStart", zoomStartHandler);
+  dojo.connect(map, "onZoomEnd", zoomEndHandler);
+  
   canvas = document.getElementById("canvasLayer");
   canvas.setAttribute("width", window.innerWidth);
   canvas.setAttribute("height", window.innerHeight);
@@ -16,15 +20,24 @@ function init(){
 }
 dojo.ready(init);
 
+function zoomStartHandler(extent, zoomFactor, anchor, level){
+  isZooming = true;
+  canvas.setAttribute("style", "display:none");
+}
+function zoomEndHandler(extent, zoomFactor, anchor, level){
+  isZooming = false;
+  canvas.setAttribute("style", "display:block");
+}
+
 var calibTimeout = 2250;
 function calibrateScreen() {
-  isCalibrating = true;
+  showPointables = false;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
   tempPauseGestures(calibTimeout*2/1000);
   calibrateDot(1);
   setTimeout (function(){calibrateDot(2);}, calibTimeout);
   setTimeout (function(){
-      isCalibrating=false;
+      showPointables=true;
       cdot.setAttribute("class","");
   }, calibTimeout*2);
 }
@@ -60,14 +73,13 @@ function drawPointable(p) {
 Leap.loop(controllerOptions, function(frame) {
   
   if (frame.pointables.length > 0) {
-    if(!isCalibrating) {
+    lastX = frame.pointables[0].tipPosition[0];
+    lastY = frame.pointables[0].tipPosition[1];
+    if(showPointables) {
       canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
       for (var i = 0; i < frame.pointables.length; i++) {
         drawPointable(frame.pointables[i]);
       }
-    } else {
-      lastX = frame.pointables[0].tipPosition[0];
-      lastY = frame.pointables[0].tipPosition[1];
     }
   }
   
@@ -79,7 +91,7 @@ Leap.loop(controllerOptions, function(frame) {
         break;
       prevGesture = gesture;
       
-      if(pauseGestureProcessing) continue;
+      if(pauseGestureProcessing || isZooming) continue;
       
       switch (gesture.type) {
         case "circle":
