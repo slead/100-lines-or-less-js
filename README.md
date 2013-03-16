@@ -114,5 +114,5 @@ limitations under the License.
 
 A copy of the license is available in the repository's [license.txt](https://raw.github.com/Esri/100-lines-or-less-js/master/license.txt) file.
 
-[](Esri Tags: ArcGIS Web Mapping Contest)
+[](Esri Tags: ArcGIS Web Mapping Contest 100-lines-or-less Code-Challenge)
 [](Esri Language: JavaScript)
