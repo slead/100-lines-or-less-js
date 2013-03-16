@@ -135,11 +135,9 @@ function handleTap(gesture) {
 
 function tempPauseGestures(seconds) {
   pauseGestureProcessing = true;
-  setTimeout(unpauseGestures, seconds * 1000);
+  setTimeout(function(){pauseGestureProcessing = false;}, seconds * 1000);
 }
-function unpauseGestures(msg) {
-  pauseGestureProcessing = false;
-}
+
 function outputLeapMessage(msg) {
   var leapOutput = document.getElementById("leapOutput");
   leapOutput.innerHTML = msg;
