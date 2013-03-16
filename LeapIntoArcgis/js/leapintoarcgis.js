@@ -84,9 +84,7 @@ Leap.loop(controllerOptions, function(frame) {
   } else {
     canvas.setAttribute("style", "display:none");
   }
-  
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
-  
     for (var i = 0; i < frame.gestures.length; i++) {
       var gesture = frame.gestures[i];
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
@@ -112,25 +110,22 @@ function handleCircle(gest) {
   var tl = map.toMap(calibratedPoint(c[0]-r, c[1]+r));
   var br = map.toMap(calibratedPoint(c[0]+r, c[1]-r));
   map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, map.spatialReference));
-  tempPauseGestures(1.5);
-  outputLeapMessage("...zooming to extent...");
+  outputGestureMessage("...zooming to extent...");
 }
 function handleSwipe(gesture) {
   map.setLevel(map.getLevel() - 1);
-  tempPauseGestures(1.5);
-  outputLeapMessage("...zooming out...");
+  outputGestureMessage("...zooming out...");
 }
 function handleTap(gesture) {
-  var cp = calibratedPoint(gesture.position[0], gesture.position[1]);
-  map.centerAt(map.toMap(cp));
-  tempPauseGestures(1.5);
-  outputLeapMessage("...centering map...");
+  map.centerAt(map.toMap(calibratedPoint(gesture.position[0], gesture.position[1])));
+  outputGestureMessage("...centering map...");
 }
 function tempPauseGestures(seconds) {
   pauseGestureProcessing = true;
   setTimeout(function(){pauseGestureProcessing = false;}, seconds * 1000);
 }
-function outputLeapMessage(msg) {
+function outputGestureMessage(msg) {
+  tempPauseGestures(1.5);
   leapOutput.innerHTML = msg;
-  setTimeout(function(){leapOutput.innerHTML = ""}, 2000);
+  setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 2000);
 }

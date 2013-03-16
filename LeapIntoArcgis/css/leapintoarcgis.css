@@ -26,8 +26,12 @@ html,body,.map.container {
 h2 {
   margin:15px;
 }
+h3 {
+  width:100%;
+  text-align:left;
+}
 
-.button {
+a {
   padding: 15px;
   background-color:#121212;
   color:#efefef;
@@ -39,7 +43,6 @@ h2 {
   padding: 10px;
   color: #700000;
   font-weight: bold;
-  min-height:30px;
 }
 
 .overlayCanvas {
