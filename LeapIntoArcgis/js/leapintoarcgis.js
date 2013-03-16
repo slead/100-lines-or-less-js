@@ -52,7 +52,7 @@ function calibrateDot(count) {
   }, calibTimeout-500);
 }
 
-function drawCircle(x, y, radius, color, alpha=.5) {
+function drawCircle(x, y, radius, color, alpha) {
   var context = canvas.getContext('2d');
   context.globalAlpha = alpha;
   context.beginPath();
@@ -68,7 +68,7 @@ function calibratedPoint(px, py) {
 
 function drawPointable(p) {
   var cp = calibratedPoint(p.tipPosition[0], p.tipPosition[1]);
-  drawCircle(cp.x, cp.y,10, '#f00');
+  drawCircle(cp.x, cp.y,10, '#f00', .5);
 }
 
 Leap.loop(controllerOptions, function(frame) {
@@ -77,11 +77,14 @@ Leap.loop(controllerOptions, function(frame) {
     lastX = frame.pointables[0].tipPosition[0];
     lastY = frame.pointables[0].tipPosition[1];
     if(showPointables) {
+      canvas.setAttribute("style", "display:block");
       canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
       for (var i = 0; i < frame.pointables.length; i++) {
         drawPointable(frame.pointables[i]);
       }
     }
+  } else {
+    canvas.setAttribute("style", "display:none");
   }
   
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
@@ -109,13 +112,14 @@ Leap.loop(controllerOptions, function(frame) {
   }
 });
 
-function handleCircle(gesture) {
-  if(gesture.radius < 5) return;
-  map.setLevel(map.getLevel() + 1);
-  var cen = map.toMap(calibratedPoint(gesture.center[0], gesture.center[1]));
-  map.centerAt(cen);
+function handleCircle(gest) {
+  if(gest.radius < 5) return;
+  var r = gest.radius, c = gest.center;
+  var tl = map.toMap(calibratedPoint(c[0]-r, c[1]+r));
+  var br = map.toMap(calibratedPoint(c[0]+r, c[1]-r));
+  map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, map.spatialReference));
   tempPauseGestures(1.5);
-  outputLeapMessage("...zooming in...");
+  outputLeapMessage("...zooming to extent...");
 }
 function handleSwipe(gesture) {
   map.setLevel(map.getLevel() - 1);
@@ -140,5 +144,5 @@ function unpauseGestures(msg) {
 function outputLeapMessage(msg) {
   var leapOutput = document.getElementById("leapOutput");
   leapOutput.innerHTML = msg;
-  setTimeout(function(){leapOutput.innerHTML = ""}, 1000);
+  setTimeout(function(){leapOutput.innerHTML = ""}, 2000);
 }
