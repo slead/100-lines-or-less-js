@@ -1,6 +1,6 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevG=0, isCalib=false, msgTO, _sr,
- calibMS = 2250, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
+ calibMS = 1500, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
@@ -30,7 +30,7 @@ function calibrateDot(count) {
     calib.right = Math.max(calib.right, lastX);
     calib.bottom = Math.min(calib.bottom, lastY);
     calib.top = Math.max(calib.top, lastY);
-  }, calibMS-500);
+  }, calibMS-250);
 }
 function toScreen(px, py) {
   return {x:map.width*(px-calib.left)/(calib.right-calib.left),
