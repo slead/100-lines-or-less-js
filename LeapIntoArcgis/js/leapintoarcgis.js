@@ -64,15 +64,13 @@ Leap.loop({enableGestures: true}, function(frame) {
     canvas.setAttribute("style", "display:none");
   }
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
-    for (var i = 0; i < frame.gestures.length; i++) {
-      var gesture = frame.gestures[i], type = gesture.type;
-      if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
-      prevGesture = gesture;
-      if(isCalib) continue;
-      else if (type === "circle") handleCircle(gesture);
+    var gesture = frame.gestures[0], type = gesture.type;
+    if(!isCalib && prevGesture !== undefined && prevGesture.id !== gesture.id) {
+      if (type === "circle") handleCircle(gesture);
       else if (type === "swipe") handleSwipe(frame, gesture);
       else if (type === "screenTap" || type === "keyTap" ) handleTap(gesture);
     }
+    prevGesture = gesture;
   }
 });
 function handleCircle(g) {
