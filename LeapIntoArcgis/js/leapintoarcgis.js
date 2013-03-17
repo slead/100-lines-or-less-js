@@ -62,7 +62,7 @@ if(typeof Leap !== "undefined") Leap.loop({enableGestures: true}, function(f) {
   if (f.gestures !== undefined && f.gestures.length > 0) {
     for(var i = 0; i < f.gestures.length; i++) {
       var gesture = f.gestures[i], type = gesture.type;
-      if(new Date().getTime() - prevG > 2500 && !isCalib){
+      if(new Date().getTime() - prevG > 1500 && !isCalib){
         if(i == 0 && type == "circle") handleCircle(gesture);
         else if(i == 0 && type == "swipe") handleSwipe(f, gesture);
         else if(type == "screenTap" || type == "keyTap" ) handleTap(gesture);
