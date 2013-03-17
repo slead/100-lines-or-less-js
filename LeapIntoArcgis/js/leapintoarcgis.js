@@ -2,7 +2,7 @@ dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, 
   pauseGestureProcessing=false, controllerOptions={enableGestures: true},
   calib={left:-60, top:300, right:60, bottom:100}, isZooming=false, 
-  calibTimeout = 2250, showPointables=true;
+  calibTimeout = 2250, showPointables=true, msgTimeout;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", { center: [-84, 32], zoom: 5, basemap: "gray" });
   dojo.connect(map, "onZoomStart", zoomStartHandler);
@@ -24,6 +24,7 @@ function zoomEndHandler(extent, zoomFactor, anchor, level){
   canvas.setAttribute("style", "display:block");
 }
 function calibrateScreen() {
+  alert("Point at the calibration dots:\n1. Top left\n2. Bottom right");
   showPointables = false;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
   tempPauseGestures(calibTimeout*2/1000);
@@ -75,15 +76,15 @@ Leap.loop(controllerOptions, function(frame) {
   }
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
     for (var i = 0; i < frame.gestures.length; i++) {
-      var gesture = frame.gestures[i];
+      var gesture = frame.gestures[i], type = gesture.type;
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
       if(pauseGestureProcessing || isZooming) continue;
-      if(gesture.type == "circle") {
+      if(type == "circle") {
         handleCircle(gesture);
-      } else if (gesture.type == "swipe") {
-        handleSwipe(gesture);
-      } else if (gesture.type == "screenTap") {
+      } else if (type == "swipe") {
+        handleSwipe(frame, gesture);
+      } else if (type == "screenTap" || type == "keyTap" ) {
         handleTap(gesture);
       }
     }
@@ -97,9 +98,16 @@ function handleCircle(gest) {
   map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, map.spatialReference));
   outputGestureMessage("...zooming to extent...");
 }
-function handleSwipe(gesture) {
-  map.setLevel(map.getLevel() - 1);
-  outputGestureMessage("...zooming out...");
+function handleSwipe(frame, gesture) {
+  var startPos = gesture.startPosition;
+  if(frame.fingers.length <= 2) {
+    outputGestureMessage("...panning...");
+    map.centerAt(map.toMap(toScreen(startPos[0], startPos[1])));
+  } else {
+    var zoomLevels = frame.fingers.length - 2
+    map.setLevel(map.getLevel() - zoomLevels);
+    outputGestureMessage("...zooming out (" + zoomLevels + " levels)...");
+  }
 }
 function handleTap(gesture) {
   map.centerAt(map.toMap(toScreen(gesture.position[0], gesture.position[1])));
@@ -108,7 +116,8 @@ function handleTap(gesture) {
 function outputGestureMessage(msg) {
   tempPauseGestures(1.5);
   leapOutput.innerHTML = msg;
-  setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 2000);
+  if(msgTimeout !== undefined) clearTimeout(msgTimeout);
+  msgTimeout = setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 3000);
 }
 function tempPauseGestures(seconds) {
   pauseGestureProcessing = true;

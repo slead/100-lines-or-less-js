@@ -12,6 +12,9 @@ html,body,.map.container {
   padding: 0;
 }
 
+ol, ul, li {
+  text-align:left;
+}
 .ontopmap {
   font-family:"Century Gothic", sans-serif;
 	position: absolute;
@@ -72,4 +75,8 @@ a {
 	top: 75% !important;
 	left: 75% !important;
   visibility:visible !important;
+}
+
+.instructions_image {
+  height: 100px;
 }
