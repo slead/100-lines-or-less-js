@@ -1,8 +1,7 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
-  pauseGestures=false, calibMS = 2250,
+  pauseGestures=false, calibMS = 2250, showDots=true, msgTimeout,
   calib={left:-60, top:300, right:60, bottom:100},
-   showDots=true, msgTimeout;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
