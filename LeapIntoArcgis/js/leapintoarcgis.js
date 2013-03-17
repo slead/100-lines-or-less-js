@@ -36,15 +36,15 @@ function toScreen(px, py) {
   return {x:map.width*(px-calib.left)/(calib.right-calib.left),
     y:map.height-map.height*(py-calib.bottom)/(calib.top-calib.bottom)};
 }
-if(Leap)Leap.loop({enableGestures: true}, function(frame) {
+if(typeof Leap !== "undefined") Leap.loop({enableGestures: true}, function(f) {
   dojo.query(".noLeap").style("display", "none");
-  if (frame.pointables.length > 0) {
-    lastX = frame.pointables[0].tipPosition[0];
-    lastY = frame.pointables[0].tipPosition[1];
+  if (f.pointables.length > 0) {
+    lastX = f.pointables[0].tipPosition[0];
+    lastY = f.pointables[0].tipPosition[1];
     if(!isCalib) {
       canvas.setAttribute("style", "display:block");
       canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
-      var ctx = canvas.getContext('2d'), ps = frame.pointables;
+      var ctx = canvas.getContext('2d'), ps = f.pointables;
       for (var i = 0, p = ps[i].tipPosition; i < ps.length; i++) {
         var cp = toScreen(p[0], p[1]);
         ctx.globalAlpha = .8;
@@ -59,12 +59,12 @@ if(Leap)Leap.loop({enableGestures: true}, function(frame) {
     }
   } else if(canvas !== undefined)
     canvas.setAttribute("style", "display:none");
-  if (frame.gestures !== undefined && frame.gestures.length > 0) {
-    for(var i = 0; i < frame.gestures.length; i++) {
-      var gesture = frame.gestures[i], type = gesture.type;
+  if (f.gestures !== undefined && f.gestures.length > 0) {
+    for(var i = 0; i < f.gestures.length; i++) {
+      var gesture = f.gestures[i], type = gesture.type;
       if(new Date().getTime() - prevG > 2500 && !isCalib){
         if(i == 0 && type == "circle") handleCircle(gesture);
-        else if(i == 0 && type == "swipe") handleSwipe(frame, gesture);
+        else if(i == 0 && type == "swipe") handleSwipe(f, gesture);
         else if(type == "screenTap" || type == "keyTap" ) handleTap(gesture);
         prevG = new Date().getTime();
       }
