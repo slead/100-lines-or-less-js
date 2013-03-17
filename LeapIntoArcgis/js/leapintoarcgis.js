@@ -48,14 +48,14 @@ Leap.loop({enableGestures: true}, function(frame) {
       for (var i = 0; i < frame.pointables.length; i++) {
         var ctx = canvas.getContext('2d'), p = frame.pointables[i].tipPosition;
         var cp = toScreen(p[0], p[1]);
-        ctx.globalAlpha = .5;
+        ctx.globalAlpha = .8;
         ctx.beginPath();
         ctx.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
         ctx.fillStyle = '#222';
         ctx.fill();
         ctx.font="16px Century Gothic";
         var mp = esri.geometry.webMercatorToGeographic(map.toMap(cp));
-        ctx.fillText("x:"+mp.x.toFixed(2)+",y:"+mp.y.toFixed(2),cp.x+15,cp.y);
+        ctx.fillText("x:"+mp.x.toFixed(5)+",y:"+mp.y.toFixed(5),cp.x+15,cp.y);
       }
     }
   } else
