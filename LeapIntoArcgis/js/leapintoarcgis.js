@@ -65,7 +65,7 @@ Leap.loop({enableGestures: true}, function(frame) {
   }
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
     var gesture = frame.gestures[0], type = gesture.type;
-    if(!isCalib && prevGesture !== undefined && prevGesture.id !== gesture.id) {
+    if(!isCalib && prevGesture !== undefined && prevGesture.id !== gesture.id){
       if (type === "circle") handleCircle(gesture);
       else if (type === "swipe") handleSwipe(frame, gesture);
       else if (type === "screenTap" || type === "keyTap" ) handleTap(gesture);
