@@ -2,7 +2,7 @@ dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
   pauseGestures=false, controllerOptions={enableGestures: true},
   calib={left:-60, top:300, right:60, bottom:100},
-  calibTimeout = 2250, showDots=true, msgTimeout;
+  calibMS = 2250, showDots=true, msgTimeout;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
@@ -18,13 +18,13 @@ function calibrateScreen() {
   alert("Point at the calibration dots:\n1. Top left\n2. Bottom right");
   showDots = false;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
-  tempPauseGestures(calibTimeout*2/1000);
+  tempPauseGestures(calibMS*2/1000);
   calibrateDot(1);
-  setTimeout (function(){calibrateDot(2);}, calibTimeout);
+  setTimeout (function(){calibrateDot(2);}, calibMS);
   setTimeout (function(){
       showDots=true;
       cdot.setAttribute("class","");
-  }, calibTimeout*2);
+  }, calibMS*2);
 }
 function calibrateDot(count) {
   cdot.setAttribute("class","cdot_pos" + count);
@@ -33,7 +33,7 @@ function calibrateDot(count) {
     calib.right = Math.max(calib.right, lastX);
     calib.bottom = Math.min(calib.bottom, lastY);
     calib.top = Math.max(calib.top, lastY);
-  }, calibTimeout-500);
+  }, calibMS-500);
 }
 function drawCircle(x, y, radius, color, alpha) {
   var context = canvas.getContext('2d');
