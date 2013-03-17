@@ -32,21 +32,18 @@ function calibrateDot(count) {
     calib.top = Math.max(calib.top, lastY);
   }, calibMS-500);
 }
-function drawCircle(x, y, radius, color, alpha) {
-  var context = canvas.getContext('2d');
-  context.globalAlpha = alpha;
-  context.beginPath();
-  context.arc(x, y, radius, 0, 2*Math.PI, false);
-  context.fillStyle = color;
-  context.fill();
-}
 function toScreen(px, py) {
   return {x:map.width*(px-calib.left)/(calib.right-calib.left),
     y:map.height-map.height*(py-calib.bottom)/(calib.top-calib.bottom)};
 }
 function drawPointable(p) {
   var cp = toScreen(p.tipPosition[0], p.tipPosition[1]);
-  drawCircle(cp.x, cp.y,10, '#f00', .5);
+  var context = canvas.getContext('2d');
+  context.globalAlpha = .5;
+  context.beginPath();
+  context.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
+  context.fillStyle = '#f00';
+  context.fill();
 }
 Leap.loop({enableGestures: true}, function(frame) {
   if (frame.pointables.length > 0) {
