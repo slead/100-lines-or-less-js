@@ -6,8 +6,9 @@ html,body,.map.container {
 }
 
 .background {
-  background-image:url('../images/transparent.png');
-  background-repeat:repeat;
+  background-color: #121212;
+  opacity:0.6;
+  filter:alpha(opacity=60); /* For IE8 and earlier */
 	position: absolute;
 	top: 0px;
 	right: 0px;
