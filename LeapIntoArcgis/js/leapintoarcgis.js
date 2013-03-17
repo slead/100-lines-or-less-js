@@ -36,41 +36,43 @@ function toScreen(px, py) {
   return {x:map.width*(px-calib.left)/(calib.right-calib.left),
     y:map.height-map.height*(py-calib.bottom)/(calib.top-calib.bottom)};
 }
-Leap.loop({enableGestures: true}, function(frame) {
-  if (frame.pointables.length > 0) {
-    lastX = frame.pointables[0].tipPosition[0];
-    lastY = frame.pointables[0].tipPosition[1];
-    if(!isCalib) {
-      canvas.setAttribute("style", "display:block");
-      canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
-      for (var i = 0; i < frame.pointables.length; i++) {
-        var ctx = canvas.getContext('2d'), p = frame.pointables[i].tipPosition;
-        var cp = toScreen(p[0], p[1]);
-        ctx.globalAlpha = .8;
-        ctx.beginPath();
-        ctx.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
-        ctx.fillStyle = '#222';
-        ctx.fill();
-        ctx.font="16px Century Gothic";
-        var mp = esri.geometry.webMercatorToGeographic(map.toMap(cp));
-        ctx.fillText(mp.y.toFixed(5)+", "+mp.x.toFixed(5),cp.x+15,cp.y);
+if(typeof Leap !== "undefined")
+  Leap.loop({enableGestures: true}, function(frame) {
+    dojo.query(".noLeap").style("display", "none");
+    if (frame.pointables.length > 0) {
+      lastX = frame.pointables[0].tipPosition[0];
+      lastY = frame.pointables[0].tipPosition[1];
+      if(!isCalib) {
+        canvas.setAttribute("style", "display:block");
+        canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
+        var ctx = canvas.getContext('2d'), ps = frame.pointables;
+        for (var i = 0, p = ps[i].tipPosition; i < ps.length; i++) {
+          var cp = toScreen(p[0], p[1]);
+          ctx.globalAlpha = .8;
+          ctx.beginPath();
+          ctx.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
+          ctx.fillStyle = '#222';
+          ctx.fill();
+          ctx.font="16px Century Gothic";
+          var mp = esri.geometry.webMercatorToGeographic(map.toMap(cp));
+          ctx.fillText(mp.y.toFixed(5)+", "+mp.x.toFixed(5),cp.x+15,cp.y);
+        }
+      }
+    } else {
+      if(canvas !== undefined) canvas.setAttribute("style", "display:none");
+    }
+    if (frame.gestures !== undefined && frame.gestures.length > 0) {
+      for(var i = 0; i < frame.gestures.length; i++) {
+        var gesture = frame.gestures[i], type = gesture.type;
+        if(new Date().getTime() - prevG > 2500 && !isCalib){
+          if(i == 0 && type == "circle") handleCircle(gesture);
+          else if(i == 0 && type == "swipe") handleSwipe(frame, gesture);
+          else if(type == "screenTap" || type == "keyTap" ) handleTap(gesture);
+          prevG = new Date().getTime();
+        }
       }
     }
-  } else {
-    if(canvas !== undefined) canvas.setAttribute("style", "display:none");
-  }
-  if (frame.gestures !== undefined && frame.gestures.length > 0) {
-    for(var i = 0; i < frame.gestures.length; i++) {
-      var gesture = frame.gestures[i], type = gesture.type;
-      if(new Date().getTime() - prevG > 2500 && !isCalib){
-        if (i == 0 && type == "circle") handleCircle(gesture);
-        else if (i == 0 && type == "swipe") handleSwipe(frame, gesture);
-        else if (type == "screenTap" || type == "keyTap" ) handleTap(gesture);
-        prevG = new Date().getTime();
-      }
-    }
-  }
-});
+  });
 function handleCircle(g) {
   if(g.radius < 5) return;
   var tl = map.toMap(toScreen(g.center[0]-g.radius, g.center[1]+g.radius));
