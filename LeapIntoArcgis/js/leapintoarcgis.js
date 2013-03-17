@@ -86,11 +86,11 @@ function handleCircle(gest) {
 }
 function handleSwipe(frame, gesture) {
   var startPos = gesture.startPosition;
+  var zoomLevels = frame.fingers.length - 2;
   if(frame.fingers.length <= 2) {
     outputGestureMessage("...panning...");
     map.centerAt(map.toMap(toScreen(startPos[0], startPos[1])));
   } else {
-    var zoomLevels = frame.fingers.length - 2
     map.setLevel(map.getLevel() - zoomLevels);
     outputGestureMessage("...zooming out (" + zoomLevels + " levels)...");
   }
