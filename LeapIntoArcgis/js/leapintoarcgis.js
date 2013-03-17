@@ -1,12 +1,11 @@
 dojo.require("esri.map");
-var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, 
+var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
   pauseGestureProcessing=false, controllerOptions={enableGestures: true},
-  calib={left:-60, top:300, right:60, bottom:100}, isZooming=false, 
+  calib={left:-60, top:300, right:60, bottom:100},
   calibTimeout = 2250, showPointables=true, msgTimeout;
 dojo.ready(function (){
-  map = new esri.Map("mapDiv", { center: [-84, 32], zoom: 5, basemap: "gray" });
-  dojo.connect(map, "onZoomStart", zoomStartHandler);
-  dojo.connect(map, "onZoomEnd", zoomEndHandler);
+  map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
+  dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
   canvas = document.getElementById("canvasLayer");
   canvas.setAttribute("width", window.innerWidth);
   canvas.setAttribute("height", window.innerHeight);
@@ -15,14 +14,6 @@ dojo.ready(function (){
   cdot = document.getElementById("cdot");
   leapOutput = document.getElementById("leapOutput");
 });
-function zoomStartHandler(extent, zoomFactor, anchor, level){
-  isZooming = true;
-  canvas.setAttribute("style", "display:none");
-}
-function zoomEndHandler(extent, zoomFactor, anchor, level){
-  isZooming = false;
-  canvas.setAttribute("style", "display:block");
-}
 function calibrateScreen() {
   alert("Point at the calibration dots:\n1. Top left\n2. Bottom right");
   showPointables = false;
@@ -79,7 +70,7 @@ Leap.loop(controllerOptions, function(frame) {
       var gesture = frame.gestures[i], type = gesture.type;
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
-      if(pauseGestureProcessing || isZooming) continue;
+      if(pauseGestureProcessing) continue;
       if(type == "circle") {
         handleCircle(gesture);
       } else if (type == "swipe") {
@@ -95,7 +86,7 @@ function handleCircle(gest) {
   var r = gest.radius, c = gest.center;
   var tl = map.toMap(toScreen(c[0]-r, c[1]+r));
   var br = map.toMap(toScreen(c[0]+r, c[1]-r));
-  map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, map.spatialReference));
+  map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, _sr));
   outputGestureMessage("...zooming to extent...");
 }
 function handleSwipe(frame, gesture) {
