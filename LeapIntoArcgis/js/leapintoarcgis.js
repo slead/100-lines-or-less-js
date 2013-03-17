@@ -76,11 +76,10 @@ Leap.loop({enableGestures: true}, function(frame) {
     }
   }
 });
-function handleCircle(gest) {
-  if(gest.radius < 5) return;
-  var r = gest.radius, c = gest.center;
-  var tl = map.toMap(toScreen(c[0]-r, c[1]+r));
-  var br = map.toMap(toScreen(c[0]+r, c[1]-r));
+function handleCircle(g) {
+  if(g.radius < 5) return;
+  var tl = map.toMap(toScreen(g.center[0]-g.radius, g.center[1]+g.radius));
+  var br = map.toMap(toScreen(g.center[0]+g.radius, g.center[1]-g.radius));
   map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, _sr));
   outputGestureMessage("...zooming to extent...");
 }
