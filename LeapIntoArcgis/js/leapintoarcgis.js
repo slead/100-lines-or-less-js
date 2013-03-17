@@ -1,6 +1,6 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
-  pauseGestureProcessing=false, controllerOptions={enableGestures: true},
+  pauseGestures=false, controllerOptions={enableGestures: true},
   calib={left:-60, top:300, right:60, bottom:100},
   calibTimeout = 2250, showPointables=true, msgTimeout;
 dojo.ready(function (){
@@ -70,7 +70,7 @@ Leap.loop(controllerOptions, function(frame) {
       var gesture = frame.gestures[i], type = gesture.type;
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
-      if(pauseGestureProcessing) continue;
+      if(pauseGestures) continue;
       if(type == "circle") {
         handleCircle(gesture);
       } else if (type == "swipe") {
@@ -111,6 +111,6 @@ function outputGestureMessage(msg) {
   msgTimeout = setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 3000);
 }
 function tempPauseGestures(seconds) {
-  pauseGestureProcessing = true;
-  setTimeout(function(){pauseGestureProcessing = false;}, seconds * 1000);
+  pauseGestures = true;
+  setTimeout(function(){pauseGestures = false;}, seconds * 1000);
 }
