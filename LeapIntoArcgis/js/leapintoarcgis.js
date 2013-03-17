@@ -2,7 +2,7 @@ dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
   pauseGestures=false, controllerOptions={enableGestures: true},
   calib={left:-60, top:300, right:60, bottom:100},
-  calibTimeout = 2250, showPointables=true, msgTimeout;
+  calibTimeout = 2250, showDots=true, msgTimeout;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
@@ -16,13 +16,13 @@ dojo.ready(function (){
 });
 function calibrateScreen() {
   alert("Point at the calibration dots:\n1. Top left\n2. Bottom right");
-  showPointables = false;
+  showDots = false;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
   tempPauseGestures(calibTimeout*2/1000);
   calibrateDot(1);
   setTimeout (function(){calibrateDot(2);}, calibTimeout);
   setTimeout (function(){
-      showPointables=true;
+      showDots=true;
       cdot.setAttribute("class","");
   }, calibTimeout*2);
 }
@@ -55,7 +55,7 @@ Leap.loop(controllerOptions, function(frame) {
   if (frame.pointables.length > 0) {
     lastX = frame.pointables[0].tipPosition[0];
     lastY = frame.pointables[0].tipPosition[1];
-    if(showPointables) {
+    if(showDots) {
       canvas.setAttribute("style", "display:block");
       canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
       for (var i = 0; i < frame.pointables.length; i++) {
