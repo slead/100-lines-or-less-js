@@ -1,10 +1,8 @@
 dojo.require("esri.map");
-var map, canvas, btnC, cdot, leapOutput, prevGest, isCalib=false, msgTO, _sr,
-  calibMS = 2250, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
+var map, canvas, btnC, cdot, leapOutput, prevG=0, isCalib=false, msgTO, _sr,
+ calibMS = 2250, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
 dojo.ready(function (){
-  var startExtent = new esri.geometry.Extent(-95.271, 38.933, -95.228, 38.976,
-                      new esri.SpatialReference({wkid:4326}));
-  map = new esri.Map("mapDiv", { extent: startExtent, basemap: "gray"});
+  map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
   canvas = document.getElementById("canvasLayer");
   canvas.setAttribute("width", window.innerWidth);
@@ -58,16 +56,19 @@ Leap.loop({enableGestures: true}, function(frame) {
         ctx.fillText("x:"+mp.x.toFixed(5)+",y:"+mp.y.toFixed(5),cp.x+15,cp.y);
       }
     }
-  } else
+  } else {
     canvas.setAttribute("style", "display:none");
+  }
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
-    var gesture = frame.gestures[0], type = gesture.type;
-    if(!isCalib && prevGest !== undefined && prevGest.id !== gesture.id){
-      if (type === "circle") handleCircle(gesture);
-      else if (type === "swipe") handleSwipe(frame, gesture);
-      else if (type === "screenTap" || type === "keyTap" ) handleTap(gesture);
+    for(var i = 0; i < frame.gestures.length; i++) {
+      var gesture = frame.gestures[i], type = gesture.type;
+      if(new Date().getTime() - prevG > 2500 && !isCalib){
+        if (i == 0 && type == "circle") handleCircle(gesture);
+        else if (i == 0 && type == "swipe") handleSwipe(frame, gesture);
+        else if (type == "screenTap" || type == "keyTap" ) handleTap(gesture);
+        prevG = new Date().getTime();
+      }
     }
-    prevGest = gesture;
   }
 });
 function handleCircle(g) {
