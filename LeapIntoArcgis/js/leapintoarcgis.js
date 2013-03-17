@@ -1,6 +1,6 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
-  pauseGestures=false, calibMS = 2250, showDots=true, msgTimeout,
+  calibMS = 2250, isCalib=false, msgTimeout,
   calib={left:-60, top:300, right:60, bottom:100};
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
@@ -15,13 +15,12 @@ dojo.ready(function (){
 });
 function calibrateScreen() {
   alert("Point at the calibration dots:\n1. Top left\n2. Bottom right");
-  showDots = false;
+  isCalib = true;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
-  tempPauseGestures(calibMS*2/1000);
   calibrateDot(1);
   setTimeout (function(){calibrateDot(2);}, calibMS);
   setTimeout (function(){
-      showDots=true;
+      isCalib = false;
       cdot.setAttribute("class","");
   }, calibMS*2);
 }
@@ -54,7 +53,7 @@ Leap.loop({enableGestures: true}, function(frame) {
   if (frame.pointables.length > 0) {
     lastX = frame.pointables[0].tipPosition[0];
     lastY = frame.pointables[0].tipPosition[1];
-    if(showDots) {
+    if(!isCalib) {
       canvas.setAttribute("style", "display:block");
       canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
       for (var i = 0; i < frame.pointables.length; i++) {
@@ -69,7 +68,7 @@ Leap.loop({enableGestures: true}, function(frame) {
       var gesture = frame.gestures[i], type = gesture.type;
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
-      if(pauseGestures) continue;
+      if(isCalib) continue;
       else if (type === "circle") handleCircle(gesture);
       else if (type === "swipe") handleSwipe(frame, gesture);
       else if (type === "screenTap" || type === "keyTap" ) handleTap(gesture);
@@ -99,12 +98,7 @@ function handleTap(gesture) {
   outputGestureMessage("...centering map...");
 }
 function outputGestureMessage(msg) {
-  tempPauseGestures(1.5);
   leapOutput.innerHTML = msg;
   if(msgTimeout !== undefined) clearTimeout(msgTimeout);
   msgTimeout = setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 3000);
-}
-function tempPauseGestures(seconds) {
-  pauseGestures = true;
-  setTimeout(function(){pauseGestures = false;}, seconds * 1000);
 }
