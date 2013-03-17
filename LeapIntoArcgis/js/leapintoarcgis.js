@@ -1,7 +1,7 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
   pauseGestures=false, calibMS = 2250, showDots=true, msgTimeout,
-  calib={left:-60, top:300, right:60, bottom:100},
+  calib={left:-60, top:300, right:60, bottom:100};
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
@@ -70,11 +70,11 @@ Leap.loop({enableGestures: true}, function(frame) {
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
       if(pauseGestures) continue;
-      if(type == "circle") {
+      if(type === "circle") {
         handleCircle(gesture);
-      } else if (type == "swipe") {
+      } else if (type === "swipe") {
         handleSwipe(frame, gesture);
-      } else if (type == "screenTap" || type == "keyTap" ) {
+      } else if (type === "screenTap" || type === "keyTap" ) {
         handleTap(gesture);
       }
     }
