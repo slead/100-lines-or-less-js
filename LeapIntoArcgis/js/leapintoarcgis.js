@@ -53,9 +53,8 @@ Leap.loop({enableGestures: true}, function(frame) {
         ctx.fill();
       }
     }
-  } else {
+  } else
     canvas.setAttribute("style", "display:none");
-  }
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
     var gesture = frame.gestures[0], type = gesture.type;
     if(!isCalib && prevGest !== undefined && prevGest.id !== gesture.id){
