@@ -24,20 +24,33 @@
       <a id="btnCalibrate" href="javascript:void(0);">calibrate</a>
       <h3>Message:</h3>
       <div id="leapOutput" class="message">&nbsp;</div>
-      <h3>1. Circle: Zoom to Extent</h3>
-      <img class="instructions_image" src="images/Leap_Gesture_Circle.png"/>
-      <h3>2. Tapping: Center on Point</h3>
-      <img class="instructions_image" src="images/Leap_Gesture_Tap.png"/>
-      <h3>3. Swipe (palm down):</h3>
-      <ul>
-        <li>1 or 2 fingers - Panning</li>
-        <li>3 fingers - zoom out 1 level</li>
-        <li>4 fingers - zoom out 2 level</li>
-        <li>5 fingers - zoom out 3 level</li>
-      </ul>
-      <img class="instructions_image" src="images/Leap_Gesture_Swipe.png"/>
-      <h3>4. ProTip: Gestures work off screen too!</h3>
-      <i>I know europe is over there --></i>
+    </div>
+    
+    <div class="instructionsPanel">
+      <span class="a">
+        <h3>1. Circle: Zoom to Extent</h3>
+        <img class="instructions_image" src="images/Leap_Gesture_Circle.png"/>
+      </span>
+      <span class="b">
+        <h3>2. Tapping: Center on Point</h3>
+        <img class="instructions_image" src="images/Leap_Gesture_Tap.png"/>
+      </span>
+      <span class="a">
+        <h3>3. Swipe (palm down):</h3>
+        <img class="instructions_image" src="images/Leap_Gesture_Swipe.png"/>
+        <span class="a">
+          <ul>
+            <li>1 or 2 fingers - Panning</li>
+            <li>3 fingers - zoom out 1 level</li>
+            <li>4 fingers - zoom out 2 level</li>
+            <li>5 fingers - zoom out 3 level</li>
+          </ul>
+        </span>
+      </span>
+      <span class="b">
+        <h3>4. ProTip: Gestures work off screen too!</h3>
+        <img class="instructions_image" src="images/Leap_Screen_Clamp.png"/>
+      </span>
     </div>
     <canvas id="canvasLayer" class="overlayCanvas"></canvas>
   </body>

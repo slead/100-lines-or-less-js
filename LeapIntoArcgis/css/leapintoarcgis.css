@@ -77,6 +77,28 @@ a {
   visibility:visible !important;
 }
 
+.instructionsPanel {
+  font-family:"Century Gothic", sans-serif;
+	position: absolute;
+	bottom: 15px;
+	left: 15px;
+  padding-right:10px;
+  padding-left:10px;
+  background-color: #fafafa;
+  text-align:center;
+}
+.instructionsPanel .a {
+  padding:10px;
+  height:auto;
+  display:inline-block;
+  background-color: #fafafa;
+}
+.instructionsPanel .b {
+  padding:10px;
+  height:auto;
+  display:inline-block;
+  background-color: #dadada;
+}
 .instructions_image {
   height: 100px;
 }
