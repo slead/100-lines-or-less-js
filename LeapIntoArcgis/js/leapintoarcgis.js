@@ -1,7 +1,6 @@
 dojo.require("esri.map");
-var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
-  calibMS = 2250, isCalib=false, msgTimeout,
-  calib={left:-60, top:300, right:60, bottom:100};
+var map, canvas, btnC, cdot, leapOutput, prevGest, isCalib=false, msgTO, _sr,
+  calibMS = 2250, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
@@ -65,12 +64,12 @@ Leap.loop({enableGestures: true}, function(frame) {
   }
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
     var gesture = frame.gestures[0], type = gesture.type;
-    if(!isCalib && prevGesture !== undefined && prevGesture.id !== gesture.id){
+    if(!isCalib && prevGest !== undefined && prevGest.id !== gesture.id){
       if (type === "circle") handleCircle(gesture);
       else if (type === "swipe") handleSwipe(frame, gesture);
       else if (type === "screenTap" || type === "keyTap" ) handleTap(gesture);
     }
-    prevGesture = gesture;
+    prevGest = gesture;
   }
 });
 function handleCircle(g) {
@@ -97,6 +96,6 @@ function handleTap(gesture) {
 }
 function outputGestureMessage(msg) {
   leapOutput.innerHTML = msg;
-  if(msgTimeout !== undefined) clearTimeout(msgTimeout);
-  msgTimeout = setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 3000);
+  if(msgTO !== undefined) clearTimeout(msgTO);
+  msgTO = setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 3000);
 }
