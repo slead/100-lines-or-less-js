@@ -1,8 +1,8 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
-  pauseGestures=false, controllerOptions={enableGestures: true},
+  pauseGestures=false, ctrlOpts={enableGestures: true}, calibMS = 2250,
   calib={left:-60, top:300, right:60, bottom:100},
-  calibMS = 2250, showDots=true, msgTimeout;
+   showDots=true, msgTimeout;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
@@ -51,7 +51,7 @@ function drawPointable(p) {
   var cp = toScreen(p.tipPosition[0], p.tipPosition[1]);
   drawCircle(cp.x, cp.y,10, '#f00', .5);
 }
-Leap.loop(controllerOptions, function(frame) {
+Leap.loop(ctrlOpts, function(frame) {
   if (frame.pointables.length > 0) {
     lastX = frame.pointables[0].tipPosition[0];
     lastY = frame.pointables[0].tipPosition[1];
