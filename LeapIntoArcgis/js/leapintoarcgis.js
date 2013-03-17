@@ -1,6 +1,6 @@
 dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGesture, lastX, lastY, _sr,
-  pauseGestures=false, ctrlOpts={enableGestures: true}, calibMS = 2250,
+  pauseGestures=false, calibMS = 2250,
   calib={left:-60, top:300, right:60, bottom:100},
    showDots=true, msgTimeout;
 dojo.ready(function (){
@@ -51,7 +51,7 @@ function drawPointable(p) {
   var cp = toScreen(p.tipPosition[0], p.tipPosition[1]);
   drawCircle(cp.x, cp.y,10, '#f00', .5);
 }
-Leap.loop(ctrlOpts, function(frame) {
+Leap.loop({enableGestures: true}, function(frame) {
   if (frame.pointables.length > 0) {
     lastX = frame.pointables[0].tipPosition[0];
     lastY = frame.pointables[0].tipPosition[1];
