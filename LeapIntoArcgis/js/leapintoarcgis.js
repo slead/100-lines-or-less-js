@@ -36,15 +36,6 @@ function toScreen(px, py) {
   return {x:map.width*(px-calib.left)/(calib.right-calib.left),
     y:map.height-map.height*(py-calib.bottom)/(calib.top-calib.bottom)};
 }
-function drawPointable(p) {
-  var cp = toScreen(p.tipPosition[0], p.tipPosition[1]);
-  var context = canvas.getContext('2d');
-  context.globalAlpha = .5;
-  context.beginPath();
-  context.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
-  context.fillStyle = '#f00';
-  context.fill();
-}
 Leap.loop({enableGestures: true}, function(frame) {
   if (frame.pointables.length > 0) {
     lastX = frame.pointables[0].tipPosition[0];
@@ -53,7 +44,13 @@ Leap.loop({enableGestures: true}, function(frame) {
       canvas.setAttribute("style", "display:block");
       canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
       for (var i = 0; i < frame.pointables.length; i++) {
-        drawPointable(frame.pointables[i]);
+        var ctx = canvas.getContext('2d'), p = frame.pointables[i].tipPosition;
+        var cp = toScreen(p[0], p[1]);
+        ctx.globalAlpha = .5;
+        ctx.beginPath();
+        ctx.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
+        ctx.fillStyle = '#f00';
+        ctx.fill();
       }
     }
   } else {
