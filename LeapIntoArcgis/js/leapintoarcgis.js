@@ -2,7 +2,9 @@ dojo.require("esri.map");
 var map, canvas, btnC, cdot, leapOutput, prevGest, isCalib=false, msgTO, _sr,
   calibMS = 2250, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
 dojo.ready(function (){
-  map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
+  var startExtent = new esri.geometry.Extent(-95.271, 38.933, -95.228, 38.976,
+                      new esri.SpatialReference({wkid:4326}));
+  map = new esri.Map("mapDiv", { extent: startExtent, basemap: "gray"});
   dojo.connect(map, "onLoad", function(){_sr = map.spatialReference;});
   canvas = document.getElementById("canvasLayer");
   canvas.setAttribute("width", window.innerWidth);
@@ -49,8 +51,11 @@ Leap.loop({enableGestures: true}, function(frame) {
         ctx.globalAlpha = .5;
         ctx.beginPath();
         ctx.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
-        ctx.fillStyle = '#f00';
+        ctx.fillStyle = '#222';
         ctx.fill();
+        ctx.font="16px Century Gothic";
+        var mp = map.toMap(cp);
+        ctx.fillText("x:"+mp.x.toFixed(2)+",y:"+mp.y.toFixed(2),cp.x+15,cp.y);
       }
     }
   } else
