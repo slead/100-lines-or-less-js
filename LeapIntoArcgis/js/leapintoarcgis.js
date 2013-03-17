@@ -54,7 +54,7 @@ Leap.loop({enableGestures: true}, function(frame) {
         ctx.fillStyle = '#222';
         ctx.fill();
         ctx.font="16px Century Gothic";
-        var mp = map.toMap(cp);
+        var mp = esri.geometry.webMercatorToGeographic(map.toMap(cp));
         ctx.fillText("x:"+mp.x.toFixed(2)+",y:"+mp.y.toFixed(2),cp.x+15,cp.y);
       }
     }
