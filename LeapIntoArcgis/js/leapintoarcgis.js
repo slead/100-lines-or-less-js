@@ -53,11 +53,11 @@ Leap.loop({enableGestures: true}, function(frame) {
         ctx.fill();
         ctx.font="16px Century Gothic";
         var mp = esri.geometry.webMercatorToGeographic(map.toMap(cp));
-        ctx.fillText("x:"+mp.x.toFixed(5)+",y:"+mp.y.toFixed(5),cp.x+15,cp.y);
+        ctx.fillText(mp.y.toFixed(5)+", "+mp.x.toFixed(5),cp.x+15,cp.y);
       }
     }
   } else {
-    canvas.setAttribute("style", "display:none");
+    if(canvas !== undefined) canvas.setAttribute("style", "display:none");
   }
   if (frame.gestures !== undefined && frame.gestures.length > 0) {
     for(var i = 0; i < frame.gestures.length; i++) {

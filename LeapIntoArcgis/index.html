@@ -21,7 +21,7 @@
     <div class="ontopmap">
       <h2>Leap Motion Detected!</h2>
       <br/>
-      <a id="btnCalibrate" href="javascript:void(0);">calibrate</a>
+      <a class="bigButton" id="btnCalibrate" href="javascript:void(0);">calibrate</a>
       <h3>Message:</h3>
       <div id="leapOutput" class="message">&nbsp;</div>
     </div>
@@ -51,5 +51,22 @@
       </span>
     </div>
     <canvas id="canvasLayer" class="overlayCanvas"></canvas>
+    <div class="background">
+    </div>
+    <div class="popupOuter">
+      <div class="popupInner">
+        <h1>Welcome to: Leap(Motion) Into ArcGIS</h1>
+        <h2>This demo doesn't work with IE currently</h2>
+        <div style="text-align:left; width:600px; margin:auto; padding-bottom:15px;">
+          <b>Long Answer:</b> Currently the LeapMotion javascript API is hosted on <a href="https://github.com/leapmotion/leapjs">Github</a>.  
+          This means that the javascript library being references is returned as 'text/plain'.
+          <br/><br/>
+          Please use Chrome, Firefox, (maybe Safari).  Thanks and have fun!
+        </div>
+        <img class="browser_logo" src="images/chrome.png"/>
+        <img class="browser_logo" src="images/firefox.png"/>
+        <img class="browser_logo" src="images/safari.png"/>
+      </div>
+    </div>
   </body>
 </html>
