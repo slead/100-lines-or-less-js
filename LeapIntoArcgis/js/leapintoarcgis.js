@@ -70,13 +70,9 @@ Leap.loop({enableGestures: true}, function(frame) {
       if(prevGesture !== undefined && prevGesture.id === gesture.id) break;
       prevGesture = gesture;
       if(pauseGestures) continue;
-      if(type === "circle") {
-        handleCircle(gesture);
-      } else if (type === "swipe") {
-        handleSwipe(frame, gesture);
-      } else if (type === "screenTap" || type === "keyTap" ) {
-        handleTap(gesture);
-      }
+      else if (type === "circle") handleCircle(gesture);
+      else if (type === "swipe") handleSwipe(frame, gesture);
+      else if (type === "screenTap" || type === "keyTap" ) handleTap(gesture);
     }
   }
 });
