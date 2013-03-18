@@ -120,12 +120,12 @@ h3 {
 	position: absolute;
 	bottom: 15px;
 	left: 15px;
-  padding:10px;
+  padding:5px;
   background-color: #fafafa;
   text-align:center;
 }
 .instructionsPanel .a {
-  padding:10px;
+  padding:5px;
   height:auto;
   display:inline-block;
   background-color: #fafafa;
