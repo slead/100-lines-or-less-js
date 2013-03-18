@@ -50,7 +50,9 @@ function init() {
     geocoder.startup();
 }
 function buildCharts(graphic) { //build charts from this feature's values
-	$("#name").html(graphic.attributes["Site_name"]);
+	var name = graphic.attributes["Site_name"];
+	if(name.length > 25) {name = name.substring(name, 25) + "...";}
+	$("#name").html(name);
 	$("#source a").attr("href", base + graphic.attributes["Site"]);
 	map.graphics.clear();
 	var sms = new esri.symbol.SimpleMarkerSymbol().setStyle(
