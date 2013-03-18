@@ -47,9 +47,9 @@ if(typeof Leap !== "undefined") Leap.loop({enableGestures: true}, function(f) {
       var ctx = canvas.getContext('2d'), ps = f.pointables;
       for (var i = 0; i < ps.length; i++) {
         var p = ps[i].tipPosition, cp = toScreen(p[0], p[1]);
-        ctx.globalAlpha = .8;
+        ctx.globalAlpha = .9;
         ctx.beginPath();
-        ctx.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
+        ctx.arc(cp.x, cp.y, 5, 0, 2*Math.PI, false);
         ctx.fillStyle = '#222';
         ctx.fill();
         ctx.font="16px Century Gothic";
@@ -93,8 +93,8 @@ function handleTap(gesture) {
   map.centerAt(map.toMap(toScreen(gesture.position[0], gesture.position[1])));
   outputGestureMessage("...centering map...");
 }
-function outputGestureMessage(msg) {
-  msg.innerHTML = msg;
+function outputGestureMessage(message) {
+  msg.innerHTML = message;
   if(msgTO !== undefined) clearTimeout(msgTO);
   msgTO = setTimeout(function(){msg.innerHTML = "&nbsp;"}, 3000);
 }
