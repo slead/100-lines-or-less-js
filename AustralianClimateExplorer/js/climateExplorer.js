@@ -5,22 +5,22 @@ dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.TooltipDialog");
 var map, dialog, selSym, hcs = [{"chartType":"column", "renderTo": "rainfall",
-	"labels": {"title": "Monthly rainfall"},
+	"labels": {"title": "Average monthly rainfall"},
 	"flds": ["rainJan","rainFeb","rainMar","rainApr","rainMay","rainJun","rainJul",
 		"rainAug","rainSep","rainOct","rainNov","rainDec"],
-	"yAxis": {"title": {"text": "Average rainfall (mm)"}},
+	"yAxis": {"title": {"text": "millimetres"}},
 	"ttip": {"sfx": " mm/month"}
 },{"chartType":"line", "renderTo": "minTemp",
-	"labels": {"title": "Minimum temperature"},
+	"labels": {"title": "Average minimum temperature"},
 	"flds": ["minJan","minFeb","minMar","minApr","minMay","minJun","minJul",
 		"minAug","minSep","minOct","minNov","minDec"],
-	"yAxis": {"title": {"text": "Average min temperature (C)"}},
+	"yAxis": {"title": {"text": "deg Celsius"}},
 	"ttip": {"sfx": " deg Celsius"}
 },{"chartType":"line", "renderTo": "maxTemp",
-	"labels": {"title": "Maximum temperature"},
+	"labels": {"title": "Average maximum temperature"},
 	"flds": ["maxJan","maxFeb","maxMar","maxApr","maxMay","maxJun","maxJul",
 		"maxAug","maxSep","maxOct","maxNov","maxDec"],
-	"yAxis": {"title": {"text": "Average max temperature (C)"}},
+	"yAxis": {"title": {"text": "deg Celsius"}},
 	"ttip": {"sfx": " deg Celsius"}}];
 var base = $("#source a")[0].dataset.baseurl; //base URL is a dataset attribute
 function init() {
@@ -30,7 +30,7 @@ function init() {
 		esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new dojo.Color([255,255,0,1]));
 	var ws = new esri.layers.FeatureLayer(
 		"http://54.252.134.128:6080/arcgis/rest/services/climate/WeatherStations/MapServer/0",{
-	    mode: esri.layers.FeatureLayer.MODE_ONDEMAND,outFields: ["*"]});
+	    mode: esri.layers.FeatureLayer.MODE_ONDEMAND,outFields: ["*"], opacity: 0.75});
 	dojo.connect(map, "onLoad", function() {map.addLayer(ws);});
 	dojo.connect(map, "onExtentChange", function() {dijit.popup.close();});
 	dojo.connect(ws, "onClick", function(evt) {buildCharts(evt.graphic);});
@@ -52,7 +52,7 @@ function init() {
 }
 function buildCharts(graphic) { //build charts from this feature's values
 	var name = graphic.attributes["Site_name"];
-	if(name.length > 27) {name = name.substring(name, 24) + "...";}
+	if(name.length > 25) {name = name.substring(name, 23) + "...";}
 	$("#name").html(name);
 	$("#source a").attr("href", base + graphic.attributes["Site"]);
 	map.graphics.clear();
@@ -71,11 +71,11 @@ function buildCharts(graphic) { //build charts from this feature's values
 	    series[0] = new Object();
 	    series[0].data = data;
 	    var chart = new Highcharts.Chart({
-	        chart: {renderTo: hc.renderTo,defaultSeriesType: hc.chartType},
-	        legend: {enabled: false},title: {text: hc.labels.title},
-	        xAxis: [{title: {text: "Month"},
+	        chart: {renderTo: hc.renderTo,defaultSeriesType: hc.chartType,
+	        	marginBottom: 50}, legend: {enabled: false},title: {text: hc.labels.title},
+	        xAxis: [{
 	        	categories: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-	        }],
+	        }],credits: {enabled: false},
 	        yAxis: hc.yAxis,
 	        tooltip: {formatter: function () {
 	        	return this.point.category+": "+this.point.y+hc.ttip.sfx;}},
