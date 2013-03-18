@@ -4,7 +4,7 @@ dojo.require("esri.dijit.Geocoder");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.TooltipDialog");
-var map, dialog, hcs = [{"chartType":"column", "renderTo": "rainfall",
+var map, dialog, selSym, hcs = [{"chartType":"column", "renderTo": "rainfall",
 	"labels": {"title": "Monthly rainfall"},
 	"flds": ["rainJan","rainFeb","rainMar","rainApr","rainMay","rainJun","rainJul",
 		"rainAug","rainSep","rainOct","rainNov","rainDec"],
@@ -22,10 +22,12 @@ var map, dialog, hcs = [{"chartType":"column", "renderTo": "rainfall",
 		"maxAug","maxSep","maxOct","maxNov","maxDec"],
 	"yAxis": {"title": {"text": "Average max temperature (C)"}},
 	"ttip": {"sfx": " deg Celsius"}}];
-	var base = "http://www.bom.gov.au/jsp/ncc/cdio/weatherData/av?p_nccObsCode=136&p_display_type=dailyDataFile&p_startYear=&p_c=&p_stn_num=";
+var base = $("#source a")[0].dataset.baseurl; //base URL is a dataset attribute
 function init() {
 	map = new esri.Map("map", {center: [133.9, -25.8],zoom: 5,basemap: "gray",
 		maxZoom: 10});
+	selSym = new esri.symbol.SimpleMarkerSymbol().setStyle(
+		esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new dojo.Color([255,255,0,1]));
 	var ws = new esri.layers.FeatureLayer(
 		"http://54.252.134.128:6080/arcgis/rest/services/climate/WeatherStations/MapServer/0",{
 	    mode: esri.layers.FeatureLayer.MODE_ONDEMAND,outFields: ["*"]});
@@ -45,19 +47,16 @@ function init() {
 	    dialog.startup();
 	});
 	var geocoder = new esri.dijit.Geocoder({ map: map,
-		arcgisGeocoder: {url: "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-		placeholder: "Find a place", sourceCountry: "AUS"}}, "search");
+		arcgisGeocoder: {placeholder: "Find a place", sourceCountry: "AUS"}}, "search");
     geocoder.startup();
 }
 function buildCharts(graphic) { //build charts from this feature's values
 	var name = graphic.attributes["Site_name"];
-	if(name.length > 25) {name = name.substring(name, 25) + "...";}
+	if(name.length > 27) {name = name.substring(name, 24) + "...";}
 	$("#name").html(name);
 	$("#source a").attr("href", base + graphic.attributes["Site"]);
 	map.graphics.clear();
-	var sms = new esri.symbol.SimpleMarkerSymbol().setStyle(
-		esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE).setColor(new dojo.Color([255,0,0,0.5]));
-	var highlight = new esri.Graphic(graphic.geometry, sms);
+	var highlight = new esri.Graphic(graphic.geometry, selSym);
 	map.graphics.add(highlight);
 	for (var i = 0; i < hcs.length; i++) {
 		hc = hcs[i];
