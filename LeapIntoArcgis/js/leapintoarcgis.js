@@ -1,5 +1,5 @@
 dojo.require("esri.map");
-var map, canvas, btnC, cdot, leapOutput, prevG=0, isCalib=false, msgTO, _sr,
+var map, canvas, btnC, cdot, msg, prevG=0, isCalib=false, msgTO, _sr, numC = 3,
  calibMS = 1500, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
@@ -10,18 +10,17 @@ dojo.ready(function (){
   btnC = document.getElementById("btnCalibrate");
   btnC.onclick = calibrateScreen;
   cdot = document.getElementById("cdot");
-  leapOutput = document.getElementById("leapOutput");
+  msg = document.getElementById("leapOutput");
 });
 function calibrateScreen() {
-  alert("Point at the calibration dots:\n1. Top left\n2. Bottom right");
+  alert("Point at the dots:\n1. Top left\n2. Top right\n3. Bottom right");
   isCalib = true;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
   calibrateDot(1);
-  setTimeout (function(){calibrateDot(2);}, calibMS);
   setTimeout (function(){
       isCalib = false;
       cdot.setAttribute("class","");
-  }, calibMS*2);
+  }, calibMS*numC);
 }
 function calibrateDot(count) {
   cdot.setAttribute("class","cdot_pos" + count);
@@ -31,6 +30,7 @@ function calibrateDot(count) {
     calib.bottom = Math.min(calib.bottom, lastY);
     calib.top = Math.max(calib.top, lastY);
   }, calibMS-250);
+  if(numC > count) setTimeout (function(){calibrateDot(count+1);}, calibMS);
 }
 function toScreen(px, py) {
   return {x:map.width*(px-calib.left)/(calib.right-calib.left),
@@ -94,7 +94,7 @@ function handleTap(gesture) {
   outputGestureMessage("...centering map...");
 }
 function outputGestureMessage(msg) {
-  leapOutput.innerHTML = msg;
+  msg.innerHTML = msg;
   if(msgTO !== undefined) clearTimeout(msgTO);
-  msgTO = setTimeout(function(){leapOutput.innerHTML = "&nbsp;"}, 3000);
+  msgTO = setTimeout(function(){msg.innerHTML = "&nbsp;"}, 3000);
 }

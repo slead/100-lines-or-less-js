@@ -109,6 +109,12 @@ h3 {
 }
 
 .cdot_pos2 {
+	top: 15% !important;
+	left: 75% !important;
+  visibility:visible !important;
+}
+
+.cdot_pos3 {
 	top: 75% !important;
 	left: 75% !important;
   visibility:visible !important;
