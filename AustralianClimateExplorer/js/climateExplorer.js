@@ -50,7 +50,7 @@ function init() {
 		arcgisGeocoder: {placeholder: "Find a place", sourceCountry: "AUS"}}, "search");
     geocoder.startup();
 }
-function buildCharts(graphic) { //build charts from this feature's values
+function buildCharts(graphic) { //build charts from this station's values
 	var name = graphic.attributes["Site_name"];
 	if(name.length > 25) {name = name.substring(name, 23) + "...";}
 	$("#name").html(name);
@@ -80,7 +80,9 @@ function buildCharts(graphic) { //build charts from this feature's values
 	        tooltip: {formatter: function () {
 	        	return this.point.category+": "+this.point.y+hc.ttip.sfx;}},
 	        series: series
-	    });}
+	    });
+	}
 }
 function toggleWelcomeDialog() {$("#wd").is(':visible') ? $("#wd").hide() : $("#wd").show();}
+$(document).on("click", "#information", function() {toggleWelcomeDialog()});
 dojo.addOnLoad(init);
