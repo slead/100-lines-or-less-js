@@ -63,8 +63,8 @@ if(typeof Leap !== "undefined") Leap.loop({enableGestures: true}, function(f) {
     for(var i = 0; i < f.gestures.length; i++) {
       var gesture = f.gestures[i], type = gesture.type;
       if(new Date().getTime() - prevG > 1500 && !isCalib){
-        if(i == 0 && type == "circle") handleCircle(gesture);
-        else if(i == 0 && type == "swipe") handleSwipe(f, gesture);
+        if(type == "circle") handleCircle(gesture);
+        else if(type == "swipe") handleSwipe(f.fingers.length, gesture);
         else if(type == "screenTap" || type == "keyTap" ) handleTap(gesture);
         prevG = new Date().getTime();
       }
@@ -78,15 +78,15 @@ function handleCircle(g) {
   map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, _sr));
   outputGestureMessage("...zooming to extent...");
 }
-function handleSwipe(frame, gesture) {
-  var startPos = gesture.startPosition;
-  var zoomLevels = frame.fingers.length - 2;
-  if(frame.fingers.length <= 2) {
-    outputGestureMessage("...panning...");
-    map.centerAt(map.toMap(toScreen(startPos[0], startPos[1])));
+function handleSwipe(numFings, gesture) {
+  var d = gesture.direction, zoomLevel = numFings - 2;
+  if(numFings <= 2) {
+    outputGestureMessage("...panning ("+numFings+" finger)...");
+    map.centerAt(map.toMap({x:.5 * map.width * (1 - d[0]) * numFings, 
+                            y:.5 * map.height * (1 + d[1]) * numFings}));
   } else {
-    map.setLevel(map.getLevel() - zoomLevels);
-    outputGestureMessage("...zooming out (" + zoomLevels + " levels)...");
+    map.setLevel(map.getLevel() - zoomLevel);
+    outputGestureMessage("...zooming out (" + zoomLevel + " levels)...");
   }
 }
 function handleTap(gesture) {

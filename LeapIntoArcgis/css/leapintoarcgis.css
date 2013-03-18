@@ -96,7 +96,6 @@ h3 {
 	position: absolute;
 	top: 0%;
 	left: 0%;
-  content:url("../images/calibration_dot.gif");
   width: 80px;
   height: 80px;
   visibility:hidden;
