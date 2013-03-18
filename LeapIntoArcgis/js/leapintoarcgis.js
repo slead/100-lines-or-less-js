@@ -62,7 +62,7 @@ if(typeof Leap !== "undefined") Leap.loop({enableGestures: true}, function(f) {
   if (f.gestures !== undefined && f.gestures.length > 0) {
     for(var i = 0; i < f.gestures.length; i++) {
       var gesture = f.gestures[i], type = gesture.type;
-      if(new Date().getTime() - prevG > 1500 && !isCalib){
+      if(new Date().getTime() - prevG > 750 && !isCalib){
         if(type == "circle") handleCircle(gesture);
         else if(type == "swipe") handleSwipe(f.fingers.length, gesture);
         else if(type == "screenTap" || type == "keyTap" ) handleTap(gesture);
@@ -72,7 +72,7 @@ if(typeof Leap !== "undefined") Leap.loop({enableGestures: true}, function(f) {
   }
 });
 function handleCircle(g) {
-  if(g.radius < 5) return;
+  if(g.radius < 5) return; //ignore tiny circles.
   var tl = map.toMap(toScreen(g.center[0]-g.radius, g.center[1]+g.radius));
   var br = map.toMap(toScreen(g.center[0]+g.radius, g.center[1]-g.radius));
   map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, _sr));
