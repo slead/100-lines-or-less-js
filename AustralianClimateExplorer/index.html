@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Australian Climate Explorer</title>
+    <link rel="shortcut icon" href="http://fullextent.com.au/assets/ico/favicon.ico">
+    <link rel="icon" type="image/ico" href="http://fullextent.com.au/assets/ico/favicon.ico">
+    <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    
+    <!--Google Analytics-->
+    <script type="text/javascript">
+    
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34346939-1']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>
+    
+ </head>
+<body class="claro">
+	<div data-dojo-type="dijit.layout.BorderContainer" 
+	         data-dojo-props="design:'headline', gutters:false"
+	         style="width: 100%; height: 100%; margin: 0;">
+	      
+	      <div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center'" style="overflow:hidden;">
+	      	<div id="search"></div>
+	      	<div id="wd" class="esriPopup draggable esriPopupWrapper">
+	      		<div class="titlePane" style="-moz-user-select: none;">
+	      			<div class="title">Australian Climate Explorer</div>
+	      			<div class="titleButton close" onclick="toggleWelcomeDialog();" title="Close"></div>
+	      		</div>
+	      		<div id="welcomeDiv">
+	      			<p>This site shows the monthly rainfall and temperature (min/max) for around 1,500 weather stations across Australia, averaged over the past 20 years.</p>
+	      			<p>Click on a weather station to see its historical data records.</p>
+	      			<p>The source of the data is the Australian Bureau of Meteorology's <a target="_blank" href="http://www.bom.gov.au/climate/data/">Climate Data Online</a> page. I wrote a script to download the records for each station and compiled the results into a file geodatabase. I'm presuming this is legal since it's possible to access each site's data manually...</p>
+	      			<p>Author: <a target="_blank" href="http://twitter.com/stephenlead">Stephen Lead</a></p>
+	      			
+	      		</div>
+	      	</div>
+	      	
+	      </div>
+	      
+	      <div id="results" dojotype="dijit.layout.ContentPane" region="right">
+	      	<div id="name">Weather Station Name</div>
+	      	<div id="rainfall" class="infoPanel"></div>
+	      	<div id="minTemp" class="infoPanel"></div>
+	      	<div id="maxTemp" class="infoPanel"></div>
+	      	<div id="source">
+	      		<span>Source: <a target=_"blank" href="http://www.bom.gov.au/climate/data/">Australian Bureau of Meteorology</a></span>
+	      	</div>
+	      	<div id="information"><img style="cursor: pointer;" onclick="toggleWelcomeDialog();" src="css/information.png"></div>
+	      </div>
+	
+	    </div>
+    
+	<script type="text/javascript">djConfig={parseOnLoad:true};var config={};</script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=3.3compact"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="js/climateExplorer.js"></script>
+   
+</body>
+</html>
