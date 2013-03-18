@@ -13,7 +13,8 @@ Best of luck!
 
 1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](https://github.com/marcos-fedato)
 2. [Maps Hangman Game](http://esri.github.com/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](https://github.com/vmachuca)
-3. 
+3. [Austrilian Climate Explorer](http://esri.github.com/100-lines-or-less-js/AustralianClimateExplorer/index.html) by [slead](https://github.com/slead)
+4.
 
 ## Contest Period
 - Starts: 9:00 AM PST Friday, Mar 8, 2013
