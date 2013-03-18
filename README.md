@@ -14,7 +14,8 @@ Best of luck!
 1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](https://github.com/marcos-fedato)
 2. [Maps Hangman Game](http://esri.github.com/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](https://github.com/vmachuca)
 3. [Australian Climate Explorer](http://esri.github.com/100-lines-or-less-js/AustralianClimateExplorer/index.html) by [slead](https://github.com/slead)
-4. [Simple LA County Parks](http://esri.github.com/100-lines-or-less-js/SimpleLACountyParks/index.html) by [odoe](https://github.com/odoe)
+4. [LA County Parks Finder](http://esri.github.com/100-lines-or-less-js/SimpleLACountyParks/index.html) by [odoe](https://github.com/odoe)
+5. ...
 
 ## Contest Period
 - Starts: 9:00 AM PST Friday, Mar 8, 2013
