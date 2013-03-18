@@ -13,7 +13,7 @@ dojo.ready(function (){
   msg = document.getElementById("leapOutput");
 });
 function calibrateScreen() {
-  alert("Point at the dots:\n1. Top left\n2. Top right\n3. Bottom right");
+  alert("Point at the dots:\n 1. Top left\n 2. Top right\n 3. Bottom right");
   isCalib = true;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
   calibrateDot(1);
@@ -45,8 +45,8 @@ if(typeof Leap !== "undefined") Leap.loop({enableGestures: true}, function(f) {
       canvas.setAttribute("style", "display:block");
       canvas.getContext("2d").clearRect(0, 0, map.width, map.height);
       var ctx = canvas.getContext('2d'), ps = f.pointables;
-      for (var i = 0, p = ps[i].tipPosition; i < ps.length; i++) {
-        var cp = toScreen(p[0], p[1]);
+      for (var i = 0; i < ps.length; i++) {
+        var p = ps[i].tipPosition, cp = toScreen(p[0], p[1]);
         ctx.globalAlpha = .8;
         ctx.beginPath();
         ctx.arc(cp.x, cp.y, 10, 0, 2*Math.PI, false);
