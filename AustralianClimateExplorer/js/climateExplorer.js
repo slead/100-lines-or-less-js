@@ -36,16 +36,18 @@ function init() {
 		dialog.setContent(evt.graphic.attributes["Site_name"]);
 		dijit.popup.open({popup: dialog, x:evt.pageX,y:evt.pageY});});
 	dojo.connect(ws, "onMouseOut", function(evt) {map.setMapCursor("default");});
+	dojo.connect(ws,"onLoad", function() {
+	    var query = new esri.tasks.Query(); //prime the charts with a random station
+	    query.objectIds = [Math.floor(Math.random()*1417)]; //there are 1418 stations
+	    query.outFields = ["*"];
+	    ws.queryFeatures(query, function(featureSet) {buildCharts(featureSet.features[0]);});
+	    dialog = new dijit.TooltipDialog({id: "tooltipDialog"});
+	    dialog.startup();
+	});
 	var geocoder = new esri.dijit.Geocoder({ map: map,
 		arcgisGeocoder: {url: "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
 		placeholder: "Find a place", sourceCountry: "AUS"}}, "search");
     geocoder.startup();
-    var query = new esri.tasks.Query(); //prime the charts with a random station
-    query.objectIds = [Math.floor(Math.random()*1417)]; //there are 1418 stations
-    query.outFields = ["*"];
-    ws.queryFeatures(query, function(featureSet) {buildCharts(featureSet.features[0]);});
-    dialog = new dijit.TooltipDialog({id: "tooltipDialog"});
-    dialog.startup();
 }
 function buildCharts(graphic) { //build charts from this feature's values
 	$("#name").html(graphic.attributes["Site_name"]);

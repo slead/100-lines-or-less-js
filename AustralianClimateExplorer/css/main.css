@@ -24,6 +24,7 @@ html, body {
 
 a {
 	text-decoration: none;
+	color: #4572a7;
 }
 
 #map {
@@ -92,7 +93,7 @@ a {
 #information {
 	position: absolute;
 	right: 10px;
-	bottom: 0;
+	bottom: 10px;
 	padding-top: 5px;
 }
 
@@ -106,13 +107,14 @@ a {
 
 .esriPopup .titlePane {
 	font-family: 'Libre Baskerville',serif;
-    font-size: 30px;
+    font-size: 32px;
     font-weight: bold;
     text-align: center;
-    padding-top: 10px;
-    height: 40px;
+    padding-top: 25px;
+    height: 21px;
 }
 
 .esriPopup a {
 	text-decoration: none;
+	color: #4572a7;
 }
