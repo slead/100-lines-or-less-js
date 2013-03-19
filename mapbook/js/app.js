@@ -57,7 +57,7 @@ require(["dojo/ready", "esri/map"],
                     map.setExtent(new esri.geometry.Extent(item.extent));
                 };
 
-                //zoom to it
+                //remove it
                 self.remove = function (item) {
                     self.bookmarks.remove(item);
                     self.save();
