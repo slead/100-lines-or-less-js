@@ -28,7 +28,6 @@ html, body {
     background-color: white;
     padding: 1em;
     margin: 1em;
-
     border-width: 2px;
     border-style: solid;
     
@@ -39,23 +38,22 @@ html, body {
     
 }
 
+#bookmarks h2 {
+    text-align: center;
+    line-height: 1;
+}
 
-.bookmarkslist ul {
+#bookmarks ul {
     margin: 0;
     margin-top: 5px;
     padding-left: 0;
 }
 
-.bookmarkslist li 
+#bookmarks li 
 {
     list-style: none;
-    padding: 15px;
-    border-bottom: 1px dotted #b0b0b0; 
-}
-
-.bookmarkslist li label
-{
     padding: 10px;
+    border-bottom: 1px dotted #b0b0b0; 
     
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -65,24 +63,25 @@ html, body {
     user-select: none;
 }
 
+
+#bookmarks li:hover {
+    background-color: lightblue;
+}
+
+
+#bookmarks li:hover > .delete {
+    display: inline;
+}
+
 .delete 
 {
     display: none;
     border: 0;
     background: none;
     position: absolute;
-    right: 10px;
+    right: 25px;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
-    padding-bottom: 20px;
 }
 
 
-.bookmarkslist li:hover {
-    background-color: lightblue;
-}
 
-.bookmarkslist li:hover > .delete {
-    display: inline;
-}

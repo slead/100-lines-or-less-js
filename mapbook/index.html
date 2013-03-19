@@ -19,13 +19,13 @@
     <body>
         <div id="map">
             <aside id="bookmarks">
-                <h2>Bookmarks</h2>
+                <h2>HTML5<br>Bookmarks</h2>
                 <input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="Enter new bookmark"/>
-                <div class="bookmarkslist">
-                    <ul id="bookmarkslist" data-bind="foreach: bookmarks">
-                        <li>
-                            <label data-bind="text: name, event: { click: $root.zoomBookmark }"></label>
-                            <button class="delete" data-bind="click: $root.remove"><p><i class="icon-remove"></i></p></button>
+                <div>
+                    <ul data-bind="foreach: bookmarks">
+                        <li data-bind="event: { click: $root.zoomBookmark }">
+                            <label data-bind="text: name"></label>
+                            <a class="delete" data-bind="click: $root.remove"><i class="icon-remove"></i></a>
                         </li>
                     </ul>
                 </div>
