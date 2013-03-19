@@ -16,22 +16,24 @@
 
 </head>
     <body>
-        <h2>Bookmarks</h2>
-        <button data-bind="click: addBookmark">Reserve another seat</button>
-             <input id="addBookmark" data-bind="value: current, enterKey: addBookmark" placeholder="What needs to be done?" autofocus=""/>
-        <table>
-            <thead>
-                <tr>
-                    <th><input data-bind="value: name" /></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: bookmarks">
-                <tr>
-                    <td><input data-bind="value: name" /></td>
-                </tr>    
-            </tbody>
-        </table>
+        <div id="map">
+              <aside id="bookmarks">
+                <h2>Bookmarks</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="What needs to be done?" autofocus=""/></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: bookmarks">
+                        <tr>
+                            <td data-bind="text: name"></td>
+                        </tr>    
+                    </tbody>
+                </table>
+            </aside>
+        </div>
 
-        <div id="mapDiv"></div>
+       
     </body>
 </html>
