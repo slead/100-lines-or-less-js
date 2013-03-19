@@ -1,17 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9">   
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-  <title>Basemap Tour</title>
-  <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css">
-  <script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3compact"></script>
-  <!-- Load my JavaScript and CSS -->
-  <link rel="stylesheet" type="text/css" href="css/examples.css">
- <script src="js/app.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9"/>   
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+  <title>Bookmarks</title>
+
+  <link rel="stylesheet" type="text/css" href="//serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css"/>
+  <link rel="stylesheet" type="text/css" href="css/examples.css"/>
+  
+  <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+  <script src="//serverapi.arcgisonline.com/jsapi/arcgis/3.3compact"></script>
+  
+  <script src="js/app.js"></script>
+
 </head>
-  <body>
-    <div id="mapDiv"></div>
-  </body>
+    <body>
+        <h2>Bookmarks</h2>
+        <button data-bind="click: addBookmark">Reserve another seat</button>
+             <input id="addBookmark" data-bind="value: current, enterKey: addBookmark" placeholder="What needs to be done?" autofocus=""/>
+        <table>
+            <thead>
+                <tr>
+                    <th><input data-bind="value: name" /></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: bookmarks">
+                <tr>
+                    <td><input data-bind="value: name" /></td>
+                </tr>    
+            </tbody>
+        </table>
+
+        <div id="mapDiv"></div>
+    </body>
 </html>
