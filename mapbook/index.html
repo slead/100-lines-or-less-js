@@ -8,7 +8,8 @@
 
   <link rel="stylesheet" type="text/css" href="//serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css"/>
   <link rel="stylesheet" type="text/css" href="css/examples.css"/>
-  
+  <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
+
   <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
   <script src="//serverapi.arcgisonline.com/jsapi/arcgis/3.3compact"></script>
   
@@ -17,20 +18,17 @@
 </head>
     <body>
         <div id="map">
-              <aside id="bookmarks">
+            <aside id="bookmarks">
                 <h2>Bookmarks</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th><input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="Enter new bookmark"/></th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: bookmarks">
-                        <tr>
-                            <td data-bind="text: name, event: { click: $root.zoomBookmark }"></td>
-                        </tr>    
-                    </tbody>
-                </table>
+                <input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="Enter new bookmark"/>
+                <div class="bookmarkslist">
+                    <ul id="bookmarkslist" data-bind="foreach: bookmarks">
+                        <li>
+                            <label data-bind="text: name, event: { click: $root.zoomBookmark }"></label>
+                            <button class="delete" data-bind="click: $root.remove"><p><i class="icon-remove"></i></p></button>
+                        </li>
+                    </ul>
+                </div>
             </aside>
         </div>
 

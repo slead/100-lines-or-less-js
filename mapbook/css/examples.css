@@ -3,6 +3,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-size: 100% !important; /* fixes IE issue exaggerated text resizing*/
     overflow:hidden; /* Hide bottom overflow of map */
 	font-family: "Lucida Grande","Seoge UI","Arial",sans-serif;
 	font-size: 14px;
@@ -35,14 +36,53 @@ html, body {
     box-shadow:  0px 0px 10px 10px rgba(1, 1, 1, 0.1);
     -webkit-border-radius: 10px;
     border-radius: 10px;
+    
 }
 
-td
+
+.bookmarkslist ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.bookmarkslist li 
 {
-  border-bottom: 1px dotted #b0b0b0; 
-}
-td:hover
-{ 
-background-color: lightblue;
+    list-style: none;
+    padding: 15px;
+    border-bottom: 1px dotted #b0b0b0; 
+    
 }
 
+.bookmarkslist li label
+{
+    padding: 10px;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.delete 
+{
+    display: none;
+    border: 0;
+    background: none;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    padding-bottom: 20px;
+}
+
+
+.bookmarkslist li:hover {
+    background-color: lightblue;
+}
+
+.bookmarkslist li:hover > .delete {
+    display: inline;
+}

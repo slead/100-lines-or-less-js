@@ -2,17 +2,18 @@ require(["dojo/ready", "esri/map"],
     function (ready) {
 
         ready(function () {
-            
+
             var options = {
                 basemap: "streets", //streets | satellite | hybrid | topo | gray | oceans | national-geographic | osm.
-                extent: new esri.geometry.Extent({ 
+                extent: new esri.geometry.Extent({
                     "xmin": -13094934.17795995,
                     "ymin": 3959049.5650010793,
                     "xmax": -12826640.20867888,
-                    "ymax": 4053525.7319615935, 
-                    "spatialReference": { "wkid": 102100} })
+                    "ymax": 4053525.7319615935,
+                    "spatialReference": { "wkid": 102100 }
+                })
             };
-            
+
             var map = new esri.Map("map", options);
 
             // Class to represent a bookmark
@@ -48,7 +49,7 @@ require(["dojo/ready", "esri/map"],
                 self.addBookmark = function () {
                     self.bookmarks.push(new bookmarkEntry(self.current(), map.extent.toJson()));
                     self.current(''); //clear the current value
-                    localStorage.setItem("myMapBookmarks", JSON.stringify(self.bookmarks()));
+                    self.save();
                 };
 
                 //zoom to it
@@ -56,8 +57,18 @@ require(["dojo/ready", "esri/map"],
                     map.setExtent(new esri.geometry.Extent(item.extent));
                 };
 
+                //zoom to it
+                self.remove = function (item) {
+                    self.bookmarks.remove(item);
+                    self.save();
+                };
+
+                self.save = function (bookmarks) {
+                    localStorage.setItem("myMapBookmarks", JSON.stringify(self.bookmarks()));
+                };
+
             }
-            
+
             ko.applyBindings(new boomarksModelModel());
 
         });
