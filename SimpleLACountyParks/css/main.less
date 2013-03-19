@@ -1,5 +1,7 @@
 @import "theme";
 
+@header_height: 40px;
+
 html, body {
   overflow-x: hidden;
   height: 100%;
@@ -14,7 +16,7 @@ div#app-header {
   top: 0;
   left: 0;
   right: 0;
-  height: 10%;
+  height: @header_height;
 
   .app-title {
     margin-left: 15px;
@@ -38,7 +40,7 @@ div#app-header {
     position: absolute;
     float: right;
     z-index: 999;
-    top: 30px;
+    top: @header_height - 5;
     right: 6px;
     width: 35%;
     height: auto;
@@ -48,8 +50,10 @@ div#app-header {
       li {
         cursor: pointer;
         list-style: none;
+        font-size: 1.2em;
         &:hover {
           color: @highlight_color;
+          font-weight: bold;
         }
       }
     }
@@ -58,7 +62,7 @@ div#app-header {
 
 div#map {
   position: absolute;
-  top: 10%;
+  top: @header_height;
   bottom: 0;
   left: 0;
   right: 0;
