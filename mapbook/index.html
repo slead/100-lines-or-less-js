@@ -22,12 +22,12 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="What needs to be done?" autofocus=""/></th>
+                            <th><input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="Enter new bookmark"/></th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: bookmarks">
                         <tr>
-                            <td data-bind="text: name"></td>
+                            <td data-bind="text: name, event: { click: $root.zoomBookmark }"></td>
                         </tr>    
                     </tbody>
                 </table>
