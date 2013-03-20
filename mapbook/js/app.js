@@ -1,4 +1,4 @@
-require(["dojo/ready", "dojo/on", "esri/map"],
+require(["dojo/ready", "dojo/on", "esri/map", "esri/dijit/Geocoder"],
     function (ready, on) {
 
         ready(function () {
@@ -100,6 +100,10 @@ require(["dojo/ready", "dojo/on", "esri/map"],
                 if (bookname)
                     bmModel.zoomBookmarkbyName(bookname);
             });
+
+            //add a geocoder
+            // create the geocoder
+            var geocoder = new esri.dijit.Geocoder({map: map}, "search"); geocoder.startup();
 
         });
     })

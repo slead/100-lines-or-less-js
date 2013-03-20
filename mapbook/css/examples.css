@@ -87,5 +87,11 @@ html, body {
     padding: 10px;
 }
 
-
+ #search {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 74px;
+}
 
