@@ -52,9 +52,11 @@ require(["dojo/ready", "esri/map"],
                     self.save();
                 };
 
-                //zoom to it
+                //zoom to it. set up history
+                var url = [location.protocol, '//', location.host, location.pathname].join('');
                 self.zoomBookmark = function (item) {
                     map.setExtent(new esri.geometry.Extent(item.extent));
+                    history.pushState(item.extent, document.title, url + "?" + item.name);
                 };
 
                 //remove it
@@ -70,6 +72,18 @@ require(["dojo/ready", "esri/map"],
             }
 
             ko.applyBindings(new boomarksModelModel());
+
+            //event for loading history
+            window.addEventListener("popstate", function (evt) {
+                if (evt.state) {
+                    map.setExtent(new esri.geometry.Extent(evt.state));
+                } else {
+                    map.setExtent(new esri.geometry.Extent(options.extent)); //go back to the overview
+                }
+            });
+
+            //insert polyfill here / get a better browser!
+            if (!history.pushState) {history.pushState = function() {}; }
 
         });
     })

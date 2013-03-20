@@ -23,8 +23,8 @@
                 <input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="Enter new bookmark"/>
                 <div>
                     <ul data-bind="foreach: bookmarks">
-                        <li data-bind="event: { click: $root.zoomBookmark }">
-                            <label data-bind="text: name"></label>
+                        <li>
+                            <label class="bookItem" data-bind="text: name, click: $root.zoomBookmark"></label>
                             <a class="delete" data-bind="click: $root.remove"><i class="icon-remove"></i></a>
                         </li>
                     </ul>

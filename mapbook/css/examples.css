@@ -52,7 +52,6 @@ html, body {
 #bookmarks li 
 {
     list-style: none;
-    padding: 10px;
     border-bottom: 1px dotted #b0b0b0; 
     
     -webkit-touch-callout: none;
@@ -63,24 +62,29 @@ html, body {
     user-select: none;
 }
 
-
 #bookmarks li:hover {
     background-color: lightblue;
 }
 
-
 #bookmarks li:hover > .delete {
-    display: inline;
+    display: inline-block;
 }
 
-.delete 
-{
+.bookItem {
+    display: inline-block;
+    min-width: 80px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.delete {
     display: none;
     border: 0;
     background: none;
     position: absolute;
     right: 25px;
     cursor: pointer;
+    padding: 10px;
 }
 
 
