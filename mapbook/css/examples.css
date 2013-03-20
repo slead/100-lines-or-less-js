@@ -95,3 +95,69 @@ html, body {
     left: 74px;
 }
 
+
+#responsiveMenu {
+    position: absolute; 
+    text-align: center; 
+    border: 2px solid #666666; 
+    background-color: #FFFFFF; 
+    color: #666666; 
+    cursor: pointer; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+    
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -o-border-radius: 5px; 
+    border-radius: 5px;
+    
+    top: 20px; 
+    right: 20px;
+
+    z-index: 100;
+}
+
+#responsiveMenu div 
+{
+    width: 30px; 
+    height: 30px; 
+    font-size: 14px; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;}
+
+#responsiveMenuSearchBookmark {
+    border-bottom: 2px solid #666666;
+ }
+ 
+ /* set up out responsive menu */
+ @media screen and (max-width:480px) {
+    #search 
+    {
+        display: none;
+        top: auto;
+        left: 20px;
+        bottom: 20px;
+    }
+    #bookmarks 
+    {
+        display: none;
+        top: 0; 
+        right: auto;
+        left: 0;
+    }
+}
+
+ @media screen and (min-width:481px) {
+    #responsiveMenu
+    {
+        display: none;
+    }
+}
+
+.hide {
+    display: block !important;
+}

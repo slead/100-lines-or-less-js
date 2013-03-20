@@ -19,7 +19,7 @@
     <body>
         <div id="map">
             <aside id="bookmarks">
-                <h2>HTML5<br>Bookmarks</h2>
+                <h2>HTML5<br/>Bookmarks</h2>
                 <input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="Enter new bookmark"/>
                 <div>
                     <ul data-bind="foreach: bookmarks">
@@ -32,5 +32,13 @@
             </aside>
         </div>
         <div id="search"></div>
+        <div id="responsiveMenu">
+            <div id="responsiveMenuSearchBookmark">
+                <a><i class="icon-bookmark-empty"></i></a>
+            </div>
+            <div id="responsiveMenuSearch">
+                 <a><i class="icon-search"></i></a>
+            </div>
+        </div>
     </body>
 </html>

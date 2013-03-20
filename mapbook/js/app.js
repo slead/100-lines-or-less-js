@@ -1,5 +1,5 @@
-require(["dojo/ready", "dojo/on", "esri/map", "esri/dijit/Geocoder"],
-    function (ready, on) {
+require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geocoder"],
+    function (ready, on, domClass) {
 
         ready(function () {
 
@@ -101,9 +101,17 @@ require(["dojo/ready", "dojo/on", "esri/map", "esri/dijit/Geocoder"],
                     bmModel.zoomBookmarkbyName(bookname);
             });
 
-            //add a geocoder
+            //add a geocoder because it looks really nice and is useful!
             // create the geocoder
-            var geocoder = new esri.dijit.Geocoder({map: map}, "search"); geocoder.startup();
+            var geocoder = new esri.dijit.Geocoder({ map: map }, "search"); geocoder.startup();
+
+            //Now lets make it responsive!
+            on(dojo.byId('responsiveMenuSearch'), "click", function () {
+                domClass.toggle(dojo.byId('search'), 'hide');
+            });
+            on(dojo.byId('responsiveMenuSearchBookmark'), "click", function () {
+                domClass.toggle(dojo.byId('bookmarks'), 'hide');
+            });
 
         });
     })
