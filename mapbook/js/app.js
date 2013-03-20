@@ -1,8 +1,9 @@
-require(["dojo/ready", "esri/map"],
-    function (ready) {
+require(["dojo/ready", "dojo/on", "esri/map"],
+    function (ready, on) {
 
         ready(function () {
 
+            //Start map
             var options = {
                 basemap: "streets", //streets | satellite | hybrid | topo | gray | oceans | national-geographic | osm.
                 extent: new esri.geometry.Extent({
@@ -13,7 +14,6 @@ require(["dojo/ready", "esri/map"],
                     "spatialReference": { "wkid": 102100 }
                 })
             };
-
             var map = new esri.Map("map", options);
 
             // Class to represent a bookmark
@@ -59,31 +59,47 @@ require(["dojo/ready", "esri/map"],
                     history.pushState(item.extent, document.title, url + "?" + item.name);
                 };
 
+                self.zoomBookmarkbyName = function (name) {
+                    var bm = self.bookmarks().filter(function (item) {
+                        return (item.name.toLowerCase() === name.toLowerCase());
+                    });
+                    if (!bm) return;
+                    self.zoomBookmark(bm[0]);
+                };
+
                 //remove it
                 self.remove = function (item) {
                     self.bookmarks.remove(item);
                     self.save();
                 };
 
-                self.save = function (bookmarks) {
+                self.save = function () {
                     localStorage.setItem("myMapBookmarks", JSON.stringify(self.bookmarks()));
                 };
 
             }
 
-            ko.applyBindings(new boomarksModelModel());
+            //Create model and apply the bindings to the UI
+            var bmModel = new boomarksModelModel();
+            ko.applyBindings(bmModel);
 
+            //Allow bookmarks to work with back/forward buttons
             //event for loading history
             window.addEventListener("popstate", function (evt) {
                 if (evt.state) {
                     map.setExtent(new esri.geometry.Extent(evt.state));
-                } else {
-                    map.setExtent(new esri.geometry.Extent(options.extent)); //go back to the overview
                 }
             });
 
             //insert polyfill here / get a better browser!
-            if (!history.pushState) {history.pushState = function() {}; }
+            if (!history.pushState) { history.pushState = function () { }; }
+
+            //don't use dojo.connect anymore. Map object now supports on. Undocumented?
+            on(map, "load", function () {
+                var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
+                if (bookname)
+                    bmModel.zoomBookmarkbyName(bookname);
+            });
 
         });
     })
