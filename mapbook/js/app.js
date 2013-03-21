@@ -63,7 +63,7 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
                     var bm = self.bookmarks().filter(function (item) {
                         return (item.name.toLowerCase() === name.toLowerCase());
                     });
-                    if (!bm) return;
+                    if (!bm[0]) return;
                     self.zoomBookmark(bm[0]);
                 };
 
