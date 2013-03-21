@@ -2,7 +2,8 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
     function (ready, on, domClass) {
 
         ready(function () {
-            
+
+            //Start map
             var options = {
                 basemap: "streets",
                 extent: new esri.geometry.Extent({
