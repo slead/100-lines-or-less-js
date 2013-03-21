@@ -9,7 +9,7 @@ Best of luck!
 
 ![App](https://raw.github.com/Esri/100-lines-or-less-js/master/100-lines-or-less-js.png)
 
-## Current Entries
+## View the Current Entries
 
 1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](http://github.com/marcos-fedato)
 2. [Maps Hangman Game](http://esri.github.com/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](http://github.com/vmachuca)
