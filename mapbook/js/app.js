@@ -99,17 +99,16 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
 
             var url = [location.protocol, '//', location.host, location.pathname].join('');
 
-            
             //don't use dojo.connect anymore. Map object now supports on. Undocumented?
             on(map, "load", function () {
                 var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
-                if (bookname) {
+                if (bookname) 
                     // bug if you load from a url the initial back will take you to the same url because really this url should be replaced
                     //not pushed. Could easily be fixed
                     bmModel.zoomBookmarkbyName(bookname); 
-                } else {
-                    history.replaceState(options.extent, document.title, url);
-                }
+                //} else {
+                  //  history.replaceState(options.extent, document.title, url);
+               // }
             });
            
             //add a geocoder because it looks really nice and is useful!
