@@ -53,9 +53,9 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
                 };
 
                 //zoom to it. set up history
-                var url = [location.protocol, '//', location.host, location.pathname].join('');
                 self.zoomBookmark = function (item) {
                     map.setExtent(new esri.geometry.Extent(item.extent));
+                    //Don't want to use #! and can't build urls because no control on back end
                     history.pushState(item.extent, document.title, url + "?" + item.name);
                 };
 
@@ -63,7 +63,7 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
                     var bm = self.bookmarks().filter(function (item) {
                         return (item.name.toLowerCase() === name.toLowerCase());
                     });
-                    if (!bm) return;
+                    if (!bm[0]) return;
                     self.zoomBookmark(bm[0]);
                 };
 
@@ -92,15 +92,26 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             });
 
             //insert polyfill here / get a better browser!
-            if (!history.pushState) { history.pushState = function () { }; }
+            if (!history.pushState) {
+                history.pushState = function () { };
+                history.replaceState = function() { };
+            }
 
+            var url = [location.protocol, '//', location.host, location.pathname].join('');
+
+            
             //don't use dojo.connect anymore. Map object now supports on. Undocumented?
             on(map, "load", function () {
                 var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
-                if (bookname)
-                    bmModel.zoomBookmarkbyName(bookname);
+                if (bookname) {
+                    // bug if you load from a url the initial back will take you to the same url because really this url should be replaced
+                    //not pushed. Could easily be fixed
+                    bmModel.zoomBookmarkbyName(bookname); 
+                } else {
+                    history.replaceState(options.extent, document.title, url);
+                }
             });
-
+           
             //add a geocoder because it looks really nice and is useful!
             // create the geocoder
             var geocoder = new esri.dijit.Geocoder({ map: map }, "search"); geocoder.startup();
