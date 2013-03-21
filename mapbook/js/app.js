@@ -2,10 +2,9 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
     function (ready, on, domClass) {
 
         ready(function () {
-
-            //Start map
+            
             var options = {
-                basemap: "streets", //streets | satellite | hybrid | topo | gray | oceans | national-geographic | osm.
+                basemap: "streets",
                 extent: new esri.geometry.Extent({
                     "xmin": -13094934.17795995,
                     "ymin": 3959049.5650010793,
