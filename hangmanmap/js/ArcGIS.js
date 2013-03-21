@@ -1,7 +1,5 @@
-dojo.require("esri.map");
-dojo.require("esri.tasks.query");
 var map,stlist,stListRd,stftSet,cWord,cChars,smb,errCnt,initExtent;
-dojo.ready(function() {
+require(["dojo/ready", "esri/map", "esri/tasks/query"], function() {
   var options = {basemap:"national-geographic",center:[-140, 50],zoom:3};
   map = new esri.Map("map", options);
   dojo.connect(map, "onLoad", mapLoad);
