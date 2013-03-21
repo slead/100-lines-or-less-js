@@ -24,56 +24,55 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
 
             // View model for bookmark
             function boomarksModelModel() {
-                var self = this;
 
                 var bookmarks = JSON.parse(localStorage.getItem("myMapBookmarks"));
                 if (!bookmarks) bookmarks = [new bookmarkEntry("Overview", options.extent.toJson())];
 
                 // Editable data
-                self.bookmarks = ko.observableArray(bookmarks);
+                this.bookmarks = ko.observableArray(bookmarks);
 
                 // stores the value the user enters
-                self.current = ko.observable();
+                this.current = ko.observable();
 
                 //listen for enter
-                self.addBookmarkEnter = function (model, event) {
+                this.addBookmarkEnter = function (model, event) {
                     var keyCode = (event.which ? event.which : event.keyCode);
                     if (keyCode === 13) {
-                        self.addBookmark();
+                        this.addBookmark();
                     }
                     return true;
                 };
 
                 //add a new one
-                self.addBookmark = function () {
-                    self.bookmarks.push(new bookmarkEntry(self.current(), map.extent.toJson()));
-                    self.current(''); //clear the current value
-                    self.save();
+                this.addBookmark = function () {
+                    this.bookmarks.push(new bookmarkEntry(this.current(), map.extent.toJson()));
+                    this.current(''); //clear the current value
+                    this.save();
                 };
 
                 //zoom to it. set up history
-                self.zoomBookmark = function (item) {
+                this.zoomBookmark = function (item) {
                     map.setExtent(new esri.geometry.Extent(item.extent));
                     //Don't want to use #! and can't build urls because no control on back end
                     history.pushState(item.extent, document.title, url + "?" + item.name);
                 };
 
-                self.zoomBookmarkbyName = function (name) {
-                    var bm = self.bookmarks().filter(function (item) {
+                this.zoomBookmarkbyName = function (name) {
+                    var bm = this.bookmarks().filter(function (item) {
                         return (item.name.toLowerCase() === name.toLowerCase());
                     });
                     if (!bm[0]) return;
-                    self.zoomBookmark(bm[0]);
+                    this.zoomBookmark(bm[0]);
                 };
 
                 //remove it
-                self.remove = function (item) {
-                    self.bookmarks.remove(item);
-                    self.save();
+                this.remove = function (item) {
+                    this.bookmarks.remove(item);
+                    this.save();
                 };
 
-                self.save = function () {
-                    localStorage.setItem("myMapBookmarks", JSON.stringify(self.bookmarks()));
+                this.save = function () {
+                    localStorage.setItem("myMapBookmarks", JSON.stringify(this.bookmarks()));
                 };
 
             }
@@ -97,7 +96,6 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             }
 
             var url = [location.protocol, '//', location.host, location.pathname].join('');
-           // history.replaceState(options.extent, document.title, url);     
             
             //don't use dojo.connect anymore. Map object now supports on. Undocumented?
             on(map, "load", function () {
@@ -107,7 +105,6 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
                 }
             });
             
-
             //add a geocoder because it looks really nice and is useful!
             // create the geocoder
             var geocoder = new esri.dijit.Geocoder({ map: map }, "search"); geocoder.startup();
