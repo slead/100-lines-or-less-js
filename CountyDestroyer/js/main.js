@@ -26,8 +26,7 @@
                 var renderer = new esri.renderer.SimpleRenderer(fillSymbol),
                     featureLayer = new FeatureLayer('http://sampleserver6.'+
                         'arcgisonline.com/arcgis/rest/services/USA/MapServer/3', {
-                            mode: FeatureLayer.MODE_ONDEMAND,
-                            outFields: ['*']
+                            mode: FeatureLayer.MODE_ONDEMAND
                         }),
                     handler = function (e) {
                         var target = e.target;
