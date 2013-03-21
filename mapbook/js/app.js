@@ -63,7 +63,7 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
                     var bm = self.bookmarks().filter(function (item) {
                         return (item.name.toLowerCase() === name.toLowerCase());
                     });
-                    if (!bm[0]) return;
+                    if (!bm) return;
                     self.zoomBookmark(bm[0]);
                 };
 
@@ -92,9 +92,7 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             });
 
             //insert polyfill here / get a better browser!
-            if (!history.pushState) 
-                history.pushState = function () { };
-              //  history.replaceState = function() { };
+            if (!history.pushState) history.pushState = function () { };
             
 
             var url = [location.protocol, '//', location.host, location.pathname].join('');
@@ -103,12 +101,7 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             on(map, "load", function () {
                 var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
                 if (bookname) 
-                    // bug if you load from a url the initial back will take you to the same url because really this url should be replaced
-                    //not pushed. Could easily be fixed
                     bmModel.zoomBookmarkbyName(bookname); 
-                //} else {
-                  //  history.replaceState(options.extent, document.title, url);
-               // }
             });
            
             //add a geocoder because it looks really nice and is useful!
