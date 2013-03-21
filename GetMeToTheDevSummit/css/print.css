@@ -1,0 +1,38 @@
+body
+{
+	background:white;
+	font-size:12pt;
+}
+.donotprint
+{
+	display:none;
+	height: 0;
+	width: 0;
+}
+
+#map_here
+{
+	width: 6.0in;
+	height: 5.0in;
+	overflow:hidden;
+	margin:0;
+	padding:0;
+	border:0;
+}
+ul {list-style-type:none; margin:10px; padding: 0;}
+ul>li, ol>li
+{margin: 2px; padding: 4px;}
+
+span.miles
+{
+	float:none;
+	text-align:right;
+	display:inline-block;
+	width:1in;
+}
+span.step
+{
+	text-align:left;
+	display:inline-block;
+	width:5in;
+}
