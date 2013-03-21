@@ -38,6 +38,11 @@ html, body {
     
 }
 
+.bookmark-container {
+    max-height: 40em;
+    overflow-y: auto;
+}
+
 #bookmarks h2 {
     text-align: center;
     line-height: 1;
@@ -148,6 +153,9 @@ html, body {
         top: 0; 
         right: auto;
         left: 0;
+    }
+    .bookmark-container {
+        max-height: 8em;
     }
 }
 

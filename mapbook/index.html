@@ -21,7 +21,7 @@
             <aside id="bookmarks">
                 <h2>HTML5<br/>Bookmarks</h2>
                 <input id="addBookmark" data-bind="value: current,  valueUpdate: 'afterkeydown', event: { keypress: addBookmarkEnter }" placeholder="Enter new bookmark"/>
-                <div>
+                <div class="bookmark-container">
                     <ul data-bind="foreach: bookmarks">
                         <li>
                             <label class="bookItem" data-bind="text: name, click: $root.zoomBookmark"></label>
