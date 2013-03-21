@@ -17,7 +17,8 @@ Best of luck!
 4. [LA County Parks Finder](http://esri.github.com/100-lines-or-less-js/SimpleLACountyParks/index.html) by [odoe](http://github.com/odoe)
 5. [Map Bookmarks](http://esri.github.com/100-lines-or-less-js/mapbook/index.html) by [davewilton](http://github.com/davewilton)
 6. [Esri Flickr Map](http://esri.github.com/100-lines-or-less-js/esriflickrmap/index.html) by [amshel](http://github.com/amshel)
-7. ...
+7. [County Destroyer!](http://esri.github.com/100-lines-or-less-js/CountyDestroyer/index.html) by [odoe](http://github.com/odoe)
+8. ...
 
 ## Contest Period
 - Starts: 9:00 AM PST Friday, Mar 8, 2013
