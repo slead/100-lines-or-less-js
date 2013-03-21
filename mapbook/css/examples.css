@@ -6,8 +6,8 @@ html, body {
     font-size: 100% !important; /* fixes IE issue exaggerated text resizing*/
     overflow:hidden; /* Hide bottom overflow of map */
 	font-family: "Lucida Grande","Seoge UI","Arial",sans-serif;
-	font-size: 14px;
-	line-height: 20px;
+	font-size: 0.875em;
+	line-height: 1.250em;
 	color: #666;
 	background-color: #fff;
 }
@@ -27,6 +27,7 @@ html, body {
     z-index: 100;
     background-color: white;
     padding: 1em;
+    padding-top: 0;
     margin: 1em;
     border-width: 2px;
     border-style: solid;
@@ -36,6 +37,11 @@ html, body {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     
+}
+
+.bookmark-container {
+    max-height: 40em;
+    overflow-y: auto;
 }
 
 #bookmarks h2 {
@@ -72,8 +78,8 @@ html, body {
 
 .bookItem {
     display: inline-block;
-    min-width: 80px;
-    padding: 10px;
+    min-width: 5.000em;
+    padding: 0.625em;
     cursor: pointer;
 }
 
@@ -82,10 +88,86 @@ html, body {
     border: 0;
     background: none;
     position: absolute;
-    right: 25px;
+    right: 1.563em;
     cursor: pointer;
-    padding: 10px;
+    padding: 0.625em;
+}
+
+ #search {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 20px; /* match esri's positioning* should probably override their controls*/
+    left: 74px; /* match esri's positioning* should probably override their controls*/
 }
 
 
+#responsiveMenu {
+    position: absolute; 
+    text-align: center; 
+    border: 2px solid #666666; 
+    background-color: #FFFFFF; 
+    color: #666666; 
+    cursor: pointer; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+    
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -o-border-radius: 5px; 
+    border-radius: 5px;
+    
+    /*We will hide the zoom buttons to show this menu */
+    top: 20px;   /* match esri's positioning should probably override their controls*/
+    right: 20px; /* match esri's positioning should probably override their controls*/
 
+    z-index: 100;
+}
+
+#responsiveMenu div 
+{
+    width: 30px; /* match esri's pixel positioning should probably override their controls*/
+    height: 30px; /* match esri's pixel positioning should probably override their controls*/
+    font-size: 14px; /* match esri's pixel positioning should probably override their controls*/
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;}
+
+#responsiveMenuSearchBookmark {
+    border-bottom: 2px solid #666666;
+ }
+ 
+ /* set up out responsive menu */
+ @media screen and (max-width:480px) {
+    #search 
+    {
+        display: none;
+        top: auto;
+        left: 1em;
+        bottom: 1em;
+    }
+    #bookmarks 
+    {
+        display: none;
+        top: 0; 
+        right: auto;
+        left: 0;
+    }
+    .bookmark-container {
+        max-height: 8em;
+    }
+}
+
+ @media screen and (min-width:481px) {
+    #responsiveMenu
+    {
+        display: none;
+    }
+}
+
+.hide {
+    display: block !important;
+}

@@ -1,11 +1,11 @@
-require(["dojo/ready", "dojo/on", "esri/map"],
-    function (ready, on) {
+require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geocoder"],
+    function (ready, on, domClass) {
 
         ready(function () {
 
             //Start map
             var options = {
-                basemap: "streets", //streets | satellite | hybrid | topo | gray | oceans | national-geographic | osm.
+                basemap: "streets",
                 extent: new esri.geometry.Extent({
                     "xmin": -13094934.17795995,
                     "ymin": 3959049.5650010793,
@@ -18,63 +18,61 @@ require(["dojo/ready", "dojo/on", "esri/map"],
 
             // Class to represent a bookmark
             function bookmarkEntry(name, extent) {
-                var self = this;
-                self.name = name;
-                self.extent = extent;
+                this.name = name;
+                this.extent = extent;
             }
 
             // View model for bookmark
             function boomarksModelModel() {
-                var self = this;
 
                 var bookmarks = JSON.parse(localStorage.getItem("myMapBookmarks"));
                 if (!bookmarks) bookmarks = [new bookmarkEntry("Overview", options.extent.toJson())];
 
                 // Editable data
-                self.bookmarks = ko.observableArray(bookmarks);
+                this.bookmarks = ko.observableArray(bookmarks);
 
                 // stores the value the user enters
-                self.current = ko.observable();
+                this.current = ko.observable();
 
                 //listen for enter
-                self.addBookmarkEnter = function (model, event) {
+                this.addBookmarkEnter = function (model, event) {
                     var keyCode = (event.which ? event.which : event.keyCode);
                     if (keyCode === 13) {
-                        self.addBookmark();
+                        this.addBookmark();
                     }
                     return true;
                 };
 
                 //add a new one
-                self.addBookmark = function () {
-                    self.bookmarks.push(new bookmarkEntry(self.current(), map.extent.toJson()));
-                    self.current(''); //clear the current value
-                    self.save();
+                this.addBookmark = function () {
+                    this.bookmarks.push(new bookmarkEntry(this.current(), map.extent.toJson()));
+                    this.current(''); //clear the current value
+                    this.save();
                 };
 
                 //zoom to it. set up history
-                var url = [location.protocol, '//', location.host, location.pathname].join('');
-                self.zoomBookmark = function (item) {
+                this.zoomBookmark = function (item) {
                     map.setExtent(new esri.geometry.Extent(item.extent));
+                    //Don't want to use #! and can't build urls because no control on back end
                     history.pushState(item.extent, document.title, url + "?" + item.name);
                 };
 
-                self.zoomBookmarkbyName = function (name) {
-                    var bm = self.bookmarks().filter(function (item) {
+                this.zoomBookmarkbyName = function (name) {
+                    var bm = this.bookmarks().filter(function (item) {
                         return (item.name.toLowerCase() === name.toLowerCase());
                     });
-                    if (!bm) return;
-                    self.zoomBookmark(bm[0]);
+                    if (!bm[0]) return;
+                    this.zoomBookmark(bm[0]);
                 };
 
                 //remove it
-                self.remove = function (item) {
-                    self.bookmarks.remove(item);
-                    self.save();
+                this.remove = function (item) {
+                    this.bookmarks.remove(item);
+                    this.save();
                 };
 
-                self.save = function () {
-                    localStorage.setItem("myMapBookmarks", JSON.stringify(self.bookmarks()));
+                this.save = function () {
+                    localStorage.setItem("myMapBookmarks", JSON.stringify(this.bookmarks()));
                 };
 
             }
@@ -91,14 +89,33 @@ require(["dojo/ready", "dojo/on", "esri/map"],
                 }
             });
 
-            //insert polyfill here / get a better browser!
-            if (!history.pushState) { history.pushState = function () { }; }
+            //insert polyfill here / get a better browser! 
+            if (!history.pushState) {
+                history.pushState = function () { };
+                history.replaceState = function () { };
+            }
 
+            var url = [location.protocol, '//', location.host, location.pathname].join('');
+            
             //don't use dojo.connect anymore. Map object now supports on. Undocumented?
             on(map, "load", function () {
-                var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
-                if (bookname)
-                    bmModel.zoomBookmarkbyName(bookname);
+                if (decodeURIComponent(document.location.search.slice(1).split(";")[0])) {
+                    bmModel.zoomBookmarkbyName(decodeURIComponent(document.location.search.slice(1).split(";")[0]));
+                } else {
+                    history.replaceState(options.extent, document.title, url);     
+                }
+            });
+            
+            //add a geocoder because it looks really nice and is useful!
+            // create the geocoder
+            var geocoder = new esri.dijit.Geocoder({ map: map }, "search"); geocoder.startup();
+
+            //Now lets make it responsive!
+            on(dojo.byId('responsiveMenuSearch'), "click", function () {
+                domClass.toggle(dojo.byId('search'), 'hide');
+            });
+            on(dojo.byId('responsiveMenuSearchBookmark'), "click", function () {
+                domClass.toggle(dojo.byId('bookmarks'), 'hide');
             });
 
         });
