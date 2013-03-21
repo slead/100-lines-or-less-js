@@ -92,10 +92,10 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             });
 
             //insert polyfill here / get a better browser!
-            if (!history.pushState) {
+            if (!history.pushState) 
                 history.pushState = function () { };
-                history.replaceState = function() { };
-            }
+              //  history.replaceState = function() { };
+            
 
             var url = [location.protocol, '//', location.host, location.pathname].join('');
 
