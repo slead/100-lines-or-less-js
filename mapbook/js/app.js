@@ -102,6 +102,8 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
                 var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
                 if (bookname) {
                     bmModel.zoomBookmarkbyName(bookname);
+                } else {
+                    history.replaceState(options.extent, document.title, url);     
                 }
             });
             
