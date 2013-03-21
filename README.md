@@ -11,12 +11,13 @@ Best of luck!
 
 ## Current Entries
 
-1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](https://github.com/marcos-fedato)
-2. [Maps Hangman Game](http://esri.github.com/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](https://github.com/vmachuca)
-3. [Australian Climate Explorer](http://esri.github.com/100-lines-or-less-js/AustralianClimateExplorer/index.html) by [slead](https://github.com/slead)
-4. [LA County Parks Finder](http://esri.github.com/100-lines-or-less-js/SimpleLACountyParks/index.html) by [odoe](https://github.com/odoe)
-5. [Map Bookmarks](http://esri.github.com/100-lines-or-less-js/mapbook/index.html) by [davewilton](https://github.com/davewilton)
-6. ...
+1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](http://github.com/marcos-fedato)
+2. [Maps Hangman Game](http://esri.github.com/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](http://github.com/vmachuca)
+3. [Australian Climate Explorer](http://esri.github.com/100-lines-or-less-js/AustralianClimateExplorer/index.html) by [slead](http://github.com/slead)
+4. [LA County Parks Finder](http://esri.github.com/100-lines-or-less-js/SimpleLACountyParks/index.html) by [odoe](http://github.com/odoe)
+5. [Map Bookmarks](http://esri.github.com/100-lines-or-less-js/mapbook/index.html) by [davewilton](http://github.com/davewilton)
+6. [Esri Flickr Map](http://esri.github.com/100-lines-or-less-js/esriflickrmap/index.html) by [amshel](http://github.com/amshel)
+7. ...
 
 ## Contest Period
 - Starts: 9:00 AM PST Friday, Mar 8, 2013
