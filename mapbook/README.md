@@ -14,7 +14,7 @@ David Wilton
 dwilton@exprodat.com
 GIS Developer, Exprodat Consulting Ltd.
 
-![iphone](https://raw.github.com/davewilton/100-lines-or-less-js/master/mapbook/images/iphone.png)
+![iphone](https://raw.github.com/davewilton/100-lines-or-less-js/master/mapbook/images/iphone.PNG)
 ![desktop](https://raw.github.com/davewilton/100-lines-or-less-js/master/mapbook/images/Desktop.png)
 
 
