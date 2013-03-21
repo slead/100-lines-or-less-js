@@ -99,9 +99,8 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             
             //don't use dojo.connect anymore. Map object now supports on. Undocumented?
             on(map, "load", function () {
-                var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
-                if (bookname) {
-                    bmModel.zoomBookmarkbyName(bookname);
+                if (decodeURIComponent(document.location.search.slice(1).split(";")[0])) {
+                    bmModel.zoomBookmarkbyName(decodeURIComponent(document.location.search.slice(1).split(";")[0]));
                 } else {
                     history.replaceState(options.extent, document.title, url);     
                 }
