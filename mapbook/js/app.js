@@ -89,7 +89,7 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
                 }
             });
 
-            //insert polyfill here / get a better browser!
+            //insert polyfill here / get a better browser! 
             if (!history.pushState) {
                 history.pushState = function () { };
                 history.replaceState = function () { };
@@ -100,6 +100,7 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             //don't use dojo.connect anymore. Map object now supports on. Undocumented?
             on(map, "load", function () {
                 if (decodeURIComponent(document.location.search.slice(1).split(";")[0])) {
+                    //this will cause a slight bug. when you load from a url you will have to hit back twice. This is because it should use replace state here
                     bmModel.zoomBookmarkbyName(decodeURIComponent(document.location.search.slice(1).split(";")[0]));
                 } else {
                     history.replaceState(options.extent, document.title, url);     
