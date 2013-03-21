@@ -18,9 +18,8 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
 
             // Class to represent a bookmark
             function bookmarkEntry(name, extent) {
-                var self = this;
-                self.name = name;
-                self.extent = extent;
+                this.name = name;
+                this.extent = extent;
             }
 
             // View model for bookmark
@@ -94,13 +93,14 @@ require(["dojo/ready", "dojo/on", "dojo/dom-class", "esri/map", "esri/dijit/Geoc
             //insert polyfill here / get a better browser!
             if (!history.pushState) {
                 history.pushState = function () { };
-                history.replaceState = history.pushState;
+                history.replaceState = function () { };
             }
 
             var url = [location.protocol, '//', location.host, location.pathname].join('');
 
+            history.pushState(options.extent, document.title, url + "?overview");
             //don't use dojo.connect anymore. Map object now supports on. Undocumented?
-            on(map, "load", function() {
+            on(map, "load", function () {
                 var bookname = decodeURIComponent(document.location.search.slice(1).split(";")[0]);
                 if (bookname)
                     bmModel.zoomBookmarkbyName(bookname);
