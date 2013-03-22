@@ -1,9 +1,3 @@
-dojo.require("esri.map");
-dojo.require("esri.layers.FeatureLayer");
-dojo.require("esri.dijit.Geocoder");
-dojo.require("dijit.layout.BorderContainer");
-dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit.TooltipDialog");
 var map, dialog, selSym, hc, charts = [{"source": "pt", "chartType":"column", "renderTo": "rainfall",
 	"labels": {"title": "Average monthly rainfall"}, "series": [{"flds": ["rainJan","rainFeb","rainMar",
 	"rainApr","rainMay","rainJun","rainJul","rainAug","rainSep","rainOct","rainNov","rainDec"]}],
@@ -18,7 +12,8 @@ var map, dialog, selSym, hc, charts = [{"source": "pt", "chartType":"column", "r
 	"renderTo": "maxTemp","ttip": {"sfx": " deg C"},"labels": {"title": "Average maximum temperature"},
 	"yAxis": {"title": {"text": "deg C"}}}];
 var base = "http://www.bom.gov.au/jsp/ncc/cdio/weatherData/av?p_nccObsCode=136&p_display_type=dailyDataFile&p_startYear=&p_c=&p_stn_num=";
-function init() {
+require(["dojo/ready", "esri/map", "esri/tasks/query", "esri/dijit/Geocoder", "esri/layers/FeatureLayer",
+	"dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/TooltipDialog","dijit/Popup"], function() {
 	map = new esri.Map("map", {center: [133.9, -25.8],zoom: 5,basemap: "gray",maxZoom: 10});
 	selSym = new esri.symbol.SimpleMarkerSymbol().setStyle(
 		esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new dojo.Color([255,255,0,1]));
@@ -43,7 +38,7 @@ function init() {
 	var geocoder = new esri.dijit.Geocoder({ map: map, autoComplete: true,
 		arcgisGeocoder: {placeholder: "Find a place", sourceCountry: "AUS"}},"search");
     geocoder.startup();
-}
+});
 function buildCharts(graphic) { //build charts from this station's values
 	var name = graphic.attributes["Site_name"];
 	if(name.length > 25) {name = name.substring(name, 23) + "...";}
@@ -96,4 +91,3 @@ function drawChart(xAxis, series) {
 	    series: series});}
 function toggleWelcomeDialog() {$("#wd").is(':visible') ? $("#wd").hide() : $("#wd").show();}
 $(document).on("click", "#information", function() {toggleWelcomeDialog()});
-dojo.addOnLoad(init);
