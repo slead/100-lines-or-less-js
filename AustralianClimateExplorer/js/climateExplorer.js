@@ -17,7 +17,7 @@ var map, dialog, selSym, charts = [{"source": "pt", "chartType":"column", "rende
 	"Aug","Sep","Oct","Nov","Dec"]}],"ttip": {"sfx": " deg C"}},{"source": "query","chartType":"line",
 	"renderTo": "maxTemp","ttip": {"sfx": " deg C"},"labels": {"title": "Average maximum temperature"},
 	"yAxis": {"title": {"text": "deg C"}},}];
-var base = $("#source a")[0].dataset.baseurl; //base URL is a dataset attribute
+var base = "http://www.bom.gov.au/jsp/ncc/cdio/weatherData/av?p_nccObsCode=136&p_display_type=dailyDataFile&p_startYear=&p_c=&p_stn_num=";
 function init() {
 	map = new esri.Map("map", {center: [133.9, -25.8],zoom: 5,basemap: "gray",maxZoom: 10});
 	selSym = new esri.symbol.SimpleMarkerSymbol().setStyle(
