@@ -19,27 +19,39 @@
 	</div>
 	<div id="dir_container" class='contain donotprint'>
 		<h1>Get me to the Dev Summit</h1>
+		<p> By: <a href="http://www.twitter.com/raykendo">Ken Doman</a></p>
+		<div id="instructions">
+			<p>
+				This application helps you get to ESRI's 2013 International Developer Summit, in Palm Springs, California.
+				Either type in your address in the search box in the upper left hand corner of the map, or if using a mobile
+				device or Wi-Fi, click "Find Me" to find your approximate location. Routing directions will follow.
+			</p>
+		</div>
 		<ul class="nav">
-			<li><a class="btn" id="gotoprint" href="#">Printer Friendly</a></li>
-			<li><a class="btn hideme" id="getmyloc" href="#">Find Me</a></li>
+			<li><button class="btn" id="gotoprint" href="#">Printer Friendly</button></li>
+			<li><button class="btn hideme" id="getmyloc" href="#">Find Me</button></li>
 			<!--<li><a class="btn hideme" id="loadlast" href="#">Load Last Search</a></li>-->
-			<li><a class="btn hideme fullroute" href="#">View Full Route</a></li>
+			<li><button class="btn hideme fullroute" href="#">View Full Route</button></li>
 		</ul>
 		<ol class="directions" id="dir_list">
 		</ol>
 	</div>
     <div id="print_container" class='contain hideme'>
-		<h2>Get Me to the Dev Summit</h2>
-		<div id="print_control" class="donotprint">
-			<ul class="nav">
-				<li><a class="btn" id="printnow">Print Now</a></li>
-				<li><a class="btn" id="gotoapp">Go Back</a></li>
-				<li><a class="btn fullroute" href="#">View Full Route</a></li>
-			</ul>
-		</div>
-		<div id="map_here">
-		</div>
-		<div id="dir_here">
+		<div class="page">
+			<h2>
+				Get Me to the Dev Summit 
+				<button class="donotprint close" id="gotoapp">X</button>
+			</h2>
+			<div id="print_control" class="donotprint">
+				<ul class="nav">
+					<li><button class="btn" id="printnow">Print Now</button></li>
+					<li><button class="btn fullroute" href="#">View Full Route</button></li>
+				</ul>
+			</div>
+			<div id="map_here">
+			</div>
+			<div id="dir_here">
+			</div>
 		</div>
 	</div>
 	<!-- ArcGIS.js contains the code for the contest entry --> 
