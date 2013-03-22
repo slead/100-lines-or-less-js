@@ -1,10 +1,10 @@
 var map, dialog, selSym, hc, charts = [{"source": "pt", "chartType":"column", "renderTo": "rainfall",
-	"labels": {"title": "Average monthly rainfall"}, "series": [{"flds": ["rainJan","rainFeb","rainMar",
+	"labels": {"title": "Average monthly rainfall"}, "fields": [{"flds": ["rainJan","rainFeb","rainMar",
 	"rainApr","rainMay","rainJun","rainJul","rainAug","rainSep","rainOct","rainNov","rainDec"]}],
 	"yAxis": {"title": {"text": "millimetres"}}, "xAxis": [{"categories": ["Jan","Feb","Mar","Apr",
 	"May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]}],"ttip": {"sfx": " mm/month"}},{"source": "pt",
 	"chartType":"line", "renderTo": "tempRange","labels": {"title": "Average temperature range"},
-	"series": [{"flds": ["minJan","minFeb","minMar","minApr","minMay","minJun","minJul","minAug",
+	"fields": [{"flds": ["minJan","minFeb","minMar","minApr","minMay","minJun","minJul","minAug",
 	"minSep","minOct","minNov","minDec"]},{"flds": ["maxJan","maxFeb","maxMar","maxApr","maxMay",
 	"maxJun","maxJul","maxAug","maxSep","maxOct","maxNov","maxDec"]}],"yAxis": {"title": 
 	{"text": "deg Celsius"}},"xAxis": [{"categories": ["Jan","Feb","Mar","Apr","May","Jun","Jul",
@@ -47,22 +47,20 @@ function buildCharts(graphic) { //build charts from this station's values
 	map.graphics.clear();
 	var highlight = new esri.Graphic(graphic.geometry, selSym);
 	map.graphics.add(highlight);
-	for (var i = 0; i < charts.length; i++) {
-		hc = charts[i];
-		var series = new Array();
+	$(charts).each(function(idx, hc){
+		hc.series = new Array();
 		if (hc.source == "pt") {
 			var attr = graphic.attributes;
-			for (var y = 0; y < hc.series.length; y++) {
-				var flds = hc.series[y].flds;
+			for (var y = 0; y < hc.fields.length; y++) {
+				var flds = hc.fields[y].flds;
 			    var field = flds[0];
 			    var data = new Array();
 			    data[0] = attr[field];
-			    var numFields = flds.length;
-			    for (var x = 1; x < numFields; x++) {data[x] = attr[flds[x]];}
-			    series[y] = new Object();
-			    series[y].data = data;
+			    for (var x = 1; x < flds.length; x++) {data[x] = attr[flds[x]];}
+			    hc.series[y] = new Object();
+			    hc.series[y].data = data;
 			}
-			drawChart(hc.xAxis, series);
+			drawChart(hc);
 		} else {
 			var qt = new esri.tasks.QueryTask("http://services.azuron.com/arcgis/rest/services/weather/WeatherStations/MapServer/1");
 			var query = new esri.tasks.Query();
@@ -74,20 +72,20 @@ function buildCharts(graphic) { //build charts from this station's values
 					data.push(results.features[j].attributes.maxAvg);
 					cats.push(results.features[j].attributes.year.toString());					
 				}
-				var xAxis = {"categories": cats, labels: {step: Math.round(cats.length/5)}};
-				series[0] = new Object();
-				series[0].data = data;
-				drawChart(xAxis, series);
+				hc.xAxis = {"categories": cats, labels: {step: Math.round(cats.length/5)}};
+				hc.series[0] = new Object();
+				hc.series[0].data = data;
+				drawChart(hc);
 			});
-		}}
+		}
+	});
 }
-function drawChart(xAxis, series) {
+function drawChart(hc) {
 	var chart = new Highcharts.Chart({
 	    chart: {renderTo: hc.renderTo,defaultSeriesType: hc.chartType,
 	    	marginBottom: 50}, legend: {enabled: false},title: {text: hc.labels.title},
-	    xAxis:xAxis,credits: {enabled: false}, yAxis: hc.yAxis,
-	    tooltip: {formatter: function () {
-	    	return this.point.category+": "+this.point.y+hc.ttip.sfx;}},
-	    series: series});}
+	    xAxis:hc.xAxis,credits: {enabled: false}, yAxis: hc.yAxis, colors:['#4572A7','#AA4643'],
+	    tooltip: {formatter: function () {return this.point.category+": "+this.point.y+hc.ttip.sfx;}},
+	    series: hc.series});}
 function toggleWelcomeDialog() {$("#wd").is(':visible') ? $("#wd").hide() : $("#wd").show();}
 $(document).on("click", "#information", function() {toggleWelcomeDialog()});
