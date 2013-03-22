@@ -79,11 +79,11 @@ function handleCircle(g) {
   outputGestureMessage("...zooming to extent...");
 }
 function handleSwipe(numFings, gesture) {
-  var d = gesture.direction, zoomLevel = numFings - 2;
-  if(numFings <= 2) {
+  var d = gesture.direction, zoomLevel = numFings - 2, pFactor = .5 * numFings;
+  if(numFings <= 2 && numFings > 0) {
     outputGestureMessage("...panning ("+numFings+" finger)...");
-    map.centerAt(map.toMap({x:.5 * map.width * (1 - d[0]) * numFings, 
-                            y:.5 * map.height * (1 + d[1]) * numFings}));
+    map.centerAt(map.toMap({x: pFactor * map.height * (1 - d[0]), 
+                            y: pFactor * map.height * (1 + d[1])}));
   } else {
     map.setLevel(map.getLevel() - zoomLevel);
     outputGestureMessage("...zooming out (" + zoomLevel + " levels)...");
