@@ -234,7 +234,7 @@ div.nextcentered {
     margin-top: 10px;
 }
 
-.hideOverlay {
+.hOverlay {
     display: none;
     margin-top: -99999999px;
 }

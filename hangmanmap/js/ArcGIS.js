@@ -1,15 +1,15 @@
-var map,stlist,stListRd,stftSet,cWord,cChars,smb,errCnt,initExtent;
+var map,stlist,stListRd,stftSet,cWord,cChars,smb,eCnt,initExtent;
 require(["dojo/ready", "esri/map", "esri/tasks/query"], function() {
   var options = {basemap:"national-geographic",center:[-140, 50],zoom:3};
   map = new esri.Map("map", options);
   dojo.connect(map, "onLoad", mapLoad);
   $('.keyboard li').click(function() {
-    if(cChars.length!=0 && $.inArray($(this).text(),cChars) != -1) return;
+    if(cChars.length!=0&&$.inArray($(this).text(),cChars)!=-1||eCnt==6)return;
     validadeRound(cChars.push($(this).html()));    
   });
   $('.nextRound').click(function() { nextRound(); });
   $('.restart').click(function() {
-    startRound($('.results').addClass('hideOverlay'));
+    startRound($('.results').addClass('hOverlay'));
   });
 });
 function mapLoad() {
@@ -37,7 +37,7 @@ function startRound() {
   $('.ginfo').show();
 }
 function nextRound() {
-  errCnt = 0;
+  eCnt = 0;
   addGraphics(stftSet.features, smb);
   drawWord(cWord = stListRd.shift().toUpperCase(),cChars = new Array());
   map.setExtent(initExtent);
@@ -52,13 +52,13 @@ function validadeRound() {
   var corretFeature = getFeatureByStateName(cWord.toUpperCase());
   addGraphics([corretFeature], smb); 
   map.setExtent(corretFeature.geometry.getExtent().expand(1.8));
-  stListRd.length==0 ? $('#win').removeClass('hideOverlay'):$('#next').show();
+  stListRd.length==0 ? $('#win').removeClass('hOverlay'):$('#next').show();
 }
 function Error() {
   cChars.pop();
   $('.answer').text(cWord);
-  $("#mistakes").removeClass().addClass('hangman' + ++errCnt);
-  if(errCnt == 6) $('#fail').removeClass('hideOverlay');
+  $("#mistakes").removeClass().addClass('hangman' + ++eCnt);
+  if(eCnt==6)setTimeout(function(){$('#fail').removeClass('hOverlay');},850);
 }
 function getFeatureByStateName(name) {
   for(var i=0; i < stftSet.features.length; i++)
