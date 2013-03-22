@@ -13,7 +13,7 @@ dojo.ready(function (){
   msg = document.getElementById("leapOutput");
 });
 function calibrateScreen() {
-  alert("Point at the dots:\n 1. Top left\n 2. Top right\n 3. Bottom right");
+  alert("Point at the dots:\n 1. Top left\n 2. Bottom right");
   isCalib = true;
   calib = {left:9999, top:-9999, right:-9999, bottom:9999};
   calibrateDot(1);
