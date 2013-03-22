@@ -3,12 +3,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow:hidden; /* Hide bottom overflow of map */
+    overflow:hidden;
 	font-family: "Lucida Grande","Seoge UI","Arial",sans-serif;
-	font-size: 14px;
-	line-height: 20px;
-	color: #666;
-	background-color: #fff;
 }
 
 #container {
@@ -23,3 +19,52 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
+
+#floatingDiv {
+    position:absolute;
+    bottom:25px;
+    left:25px;
+    z-index:10000;
+    zoom: 1;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    background-color: #23487E;
+    padding: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    color: White;
+    font-weight: bold;
+}
+
+#floatingDiv:hover {
+    position:absolute;
+    bottom:25px;
+    left:25px;
+    z-index:10000;
+    background-color: #23487E;
+    padding: 15px;
+    zoom: 1;
+    filter: alpha(opacity=100);
+    opacity: 1.0;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.Title {
+    font-size: Large;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.Labels {
+    display: inline-block;
+    width: 175px;
+}
+
+#geocoder {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 75px;
+} 
