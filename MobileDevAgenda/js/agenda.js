@@ -12,29 +12,31 @@ function initMap(room) {
     m.then(function (response) {
         app.map = response.map;
         var ms = "http://maps.deschutes.org/arcgis/rest/services/PalmSprings/MapServer";
-        app.findTask = new esri.tasks.FindTask(ms);
-        app.findParams = new esri.tasks.FindParameters();
-        app.findParams.returnGeometry = true;
-        app.findParams.layerIds = [0, 3];
-        app.findParams.searchFields = ["RoomName"];
-        app.findParams.searchText = room;
-        app.findTask.execute(app.findParams, showRooms);
+        var findTask = new esri.tasks.FindTask(ms);
+        var findParams = new esri.tasks.FindParameters();
+        findParams.returnGeometry = true;
+        findParams.layerIds = [0, 3];
+        findParams.searchFields = ["RoomName"];
+        findParams.searchText = room;
+        findTask.execute(findParams, showRooms);
     });
 }
 function zoomSession() {
-    app.map.centerAndZoom(app.center, 18);
+    app.map.centerAndZoom(app.ext.getCenter(), 18);
 }
-function zoomGPS() {
-    var mp = new esri.geometry.Multipoint(app.map.spatialReference);
-    mp.addPoint(app.gps);
-    app.map.setExtent(mp.getExtent().union(app.map.extent).expand(2));
+function getGPS(zoom) {
+    app.zoom = zoom;
+    navigator.geolocation.getCurrentPosition(showGPS);
 }
 function showGPS(location) {
     var eg = esri.geometry;
     var xy = location.coords;
-    app.gps = eg.geographicToWebMercator(eg.Point(xy.longitude, xy.latitude))
+    var gps = eg.geographicToWebMercator(eg.Point(xy.longitude, xy.latitude))
     var pms = new esri.symbol.PictureMarkerSymbol("images/bluedot.png", 30, 30);
-    app.map.graphics.add(new esri.Graphic(app.gps, pms));
+    app.map.graphics.clear();
+    app.map.graphics.add(new esri.Graphic(gps, pms));
+    var gExt = app.map.graphics.graphics[0]._extent;
+    if (app.zoom) app.map.setExtent(app.ext.union(gExt).expand(2));
     $("#uxFindMe").removeClass('ui-disabled');
 }
 function showRooms(results) {
@@ -47,21 +49,19 @@ function showRooms(results) {
             new dojo.Color([255, 0, 0]), 2), new dojo.Color([255, 0, 0, 0.25]));
         dojo.forEach(results, function (result) {
             var graphic = result.feature;
-            if (graphic.geometry.type == "point") {
-                graphic.setSymbol(pms);
-                app.center = graphic.geometry;
+            if (graphic.geometry.type == "point") graphic.setSymbol(pms);
+            if (graphic.geometry.type == "polygon") {
+                graphic.setSymbol(sls);
+                app.ext = graphic.geometry.getExtent();
             }
-            if (graphic.geometry.type == "polygon") graphic.setSymbol(sls);
             glay.add(graphic);
         });
         app.map.addLayer(glay);
         setTimeout(function () {
-            app.map.centerAndZoom(app.center, 18);
+            app.map.centerAndZoom(app.ext.getCenter(), 18);
         }, 500)
     }
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showGPS);
-    }
+    if (navigator.geolocation) getGPS(false);
 }
 function sortJson(a, b) {
     return getDate(a.Time) > getDate(b.Time) ? 1 : -1;
