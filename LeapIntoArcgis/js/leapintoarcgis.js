@@ -78,13 +78,13 @@ function handleCircle(g) {
   map.setExtent(new esri.geometry.Extent(tl.x, br.y, br.x, tl.y, _sr));
   outputGestureMessage("...zooming to extent...");
 }
-function handleSwipe(numFings, gesture) {
-  var d = gesture.direction, zoomLevel = numFings - 2, pFactor = .5 * numFings;
-  if(numFings <= 2 && numFings > 0) {
-    outputGestureMessage("...panning ("+numFings+" finger)...");
-    map.centerAt(map.toMap({x: pFactor * map.height * (1 - d[0]), 
-                            y: pFactor * map.height * (1 + d[1])}));
-  } else {
+function handleSwipe(numf, gesture) {
+  var d = gesture.direction, zoomLevel = numf - 2, p = .5 * numf * map.height;
+  if(numf <= 2 && numf > 0) {
+    outputGestureMessage("...panning ("+numf+" finger)...");
+    map.centerAt(map.toMap({x: (map.width / 2) - p * d[0], 
+                            y: (map.height / 2) + p * (d[1])}));
+  } else if(numf > 2) {
     map.setLevel(map.getLevel() - zoomLevel);
     outputGestureMessage("...zooming out (" + zoomLevel + " levels)...");
   }
