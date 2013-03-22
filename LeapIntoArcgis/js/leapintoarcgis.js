@@ -1,5 +1,5 @@
 dojo.require("esri.map");
-var map, canvas, btnC, cdot, msg, prevG=0, isCalib=false, msgTO, _sr, numC = 3,
+var map, canvas, btnC, cdot, msg, prevG=0, isCalib=false, msgTO, _sr, numC = 2,
  calibMS = 1500, calib={left:-60, top:300, right:60, bottom:100}, lastX, lastY;
 dojo.ready(function (){
   map = new esri.Map("mapDiv", {center: [-84, 32], zoom: 5, basemap: "gray"});
