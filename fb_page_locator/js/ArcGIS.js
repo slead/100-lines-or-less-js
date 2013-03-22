@@ -8,11 +8,12 @@ var map, pageLayer;
 dojo.ready(init);
 
 function init() {
-  map = new esri.Map("map", {center: [-97.929,38.060],zoom: 15});
+  map = new esri.Map("map", {center: [-96.9953,37.2397],zoom: 15});
   osmLayer = new esri.layers.OpenStreetMapLayer();
   pageLayer = new esri.layers.GraphicsLayer();
   map.addLayer(osmLayer);
   map.addLayer(pageLayer);
+  map.disableKeyboardNavigation()
   autoResize(map)
   getPages([map.extent.getCenter().getLatitude(),map.extent.getCenter().getLongitude()]
       ,$('#buffer').val(), $('#search').val(), $('#resultsToReturn').val());
@@ -56,7 +57,7 @@ function getPages(center, distance, searchTerm, resultsToReturn) {
           var pagePoint = new esri.geometry.Point({ latitude: item.location.latitude, 
                                                     longitude: item.location.longitude });
           var symbol = new esri.symbol.PictureMarkerSymbol('images/page.png', 20, 20);
-          var attr = { title: item.name };
+          var attr = { "title": item.name };
           var content = "<a href='http://www.facebook.com/" + item.id 
                         + "' target='_blank'/><img src='https://graph.facebook.com/" + item.id
                         + "/picture' alt='" + item.name + "'/><br/>" + item.location.street 
