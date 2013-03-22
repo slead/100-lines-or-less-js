@@ -26,6 +26,8 @@
       <br/>
       <h3>Message:</h3>
       <div id="leapOutput" class="message">&nbsp;</div>
+      <br/>
+      <img class="contact_image" src="images/contact.png"/>
     </div>
     
     <div class="instructionsPanel">
@@ -60,8 +62,16 @@
         <h1>Leap Motion not detected!</h1>
         <div style="text-align:left;">
           <h2>1. You don't have a Leap Motion (seriously!?)</h2>
-          <a class="bigButton" href="http://www.youtube.com/watch?v=-OS07aZ78I4" target="_blank">Watch Demo</a>
-          <h2>2. This demo doesn't work with IE currently</h2>
+          <center>
+            <table style="margin:auto;">
+              <tr>
+                <td><a class="bigButton" href="http://www.youtube.com/watch?v=-OS07aZ78I4" target="_blank">Watch Demo</a></td>
+                <td>&nbsp;or&nbsp;</td>
+                <td><img class="contact_image" src="images/contact.png"/></td>
+              </tr>
+            </table>
+          </center>
+          <h2>2. This demo currently doesn't work with IE :(</h2>
           <div style="padding-left:45px;padding-bottom:15px;">
             <b>Longer Explanation:</b> Currently the <a href="https://github.com/leapmotion/leapjs" target="_blank">LeapMotion javascript API</a>
             is hosted on Github.  This means that the javascript file being references is returned as 'text/plain'(which IE happily ignores).
