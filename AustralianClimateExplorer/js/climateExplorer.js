@@ -20,30 +20,29 @@ require(["dojo/ready", "esri/map", "esri/tasks/query", "esri/dijit/Geocoder", "e
 	var ws = new esri.layers.FeatureLayer(
 		"http://services.azuron.com/arcgis/rest/services/weather/WeatherStations/MapServer/0",{
 	    mode: esri.layers.FeatureLayer.MODE_ONDEMAND,outFields: ["*"], opacity: 0.75});
-	dojo.connect(map, "onLoad", function() {map.addLayer(ws);});
-	dojo.connect(map, "onExtentChange", function() {dijit.popup.close();});
-	dojo.connect(ws, "onClick", function(evt) {buildCharts(evt.graphic);});
-	dojo.connect(ws, "onMouseOver", function(evt) {map.setMapCursor("pointer");
+	dojo.connect(map,"onLoad",function(){map.addLayer(ws);});
+	dojo.connect(ws,"onClick",function(evt){buildCharts(evt.graphic);});
+	dojo.connect(ws,"onMouseOver",function(evt){map.setMapCursor("pointer");
 		dialog.setContent(evt.graphic.attributes["Site_name"]);
-		dijit.popup.open({popup: dialog, x:evt.pageX,y:evt.pageY});});
-	dojo.connect(ws, "onMouseOut", function(evt) {map.setMapCursor("default");});
-	dojo.connect(ws,"onLoad", function() {
+		dijit.popup.open({popup:dialog,x:evt.pageX,y:evt.pageY});});
+	dojo.connect(ws,"onMouseOut",function(evt){map.setMapCursor("default");dijit.popup.close();});
+	dojo.connect(ws,"onLoad",function(){
 	    var query = new esri.tasks.Query(); //prime the charts with a random station
 	    query.objectIds = [Math.floor(Math.random()*1417)]; //there are 1418 stations
 	    query.outFields = ["*"];
-	    ws.queryFeatures(query, function(featureSet) {buildCharts(featureSet.features[0]);});
-	    dialog = new dijit.TooltipDialog({id: "tooltipDialog"});
+	    ws.queryFeatures(query,function(featureSet){buildCharts(featureSet.features[0]);});
+	    dialog = new dijit.TooltipDialog({id:"tooltipDialog"});
 	    dialog.startup();
 	});
-	var geocoder = new esri.dijit.Geocoder({ map: map, autoComplete: true,
-		arcgisGeocoder: {placeholder: "Find a place", sourceCountry: "AUS"}},"search");
+	var geocoder = new esri.dijit.Geocoder({map:map,autoComplete:true,
+		arcgisGeocoder:{placeholder:"Find a place",sourceCountry:"AUS"}},"search");
     geocoder.startup();
 });
 function buildCharts(graphic) { //build charts from this station's values
 	var name = graphic.attributes["Site_name"];
-	if(name.length > 25) {name = name.substring(name, 23) + "...";}
+	if(name.length>25){name=name.substring(name,23) + "...";}
 	$("#name").html(name);
-	$("#source a").attr("href", base + graphic.attributes["Site"]);
+	$("#source a").attr("href",base + graphic.attributes["Site"]);
 	map.graphics.clear();
 	var highlight = new esri.Graphic(graphic.geometry, selSym);
 	map.graphics.add(highlight);
