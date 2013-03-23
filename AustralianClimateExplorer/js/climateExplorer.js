@@ -3,15 +3,15 @@ var map,dialog,selSym,hc,qt,tempQuery,charts=[{source:"pt",chartType:"column",re
 	[{flds:["rainJan","rainFeb","rainMar","rainApr","rainMay","rainJun","rainJul","rainAug",
 	"rainSep","rainOct","rainNov","rainDec"]}],yAxis:{title:{text:"millimetres"}},xAxis:
 	[{categories:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]}],
-	ttip:{sfx:" mm/month"}},{plotOptions:{marker:{enabled:false}},source:"pt",chartType:"line",
-	renderTo:"tempRange",labels:{title:"Average temperature range"},fields:[{flds:
+	ttip:{sfx:" mm/month"}},{plotOptions:{},source:"pt",chartType:"line",renderTo:
+	"tempRange",labels:{title:"Average temperature range"},fields:[{flds:
 	["minJan","minFeb","minMar","minApr","minMay","minJun","minJul","minAug","minSep","minOct",
 	"minNov","minDec"]},{flds:["maxJan","maxFeb","maxMar","maxApr","maxMay","maxJun","maxJul",
 	"maxAug","maxSep","maxOct","maxNov","maxDec"]}],yAxis:{title:{text:"deg Celsius"}},
 	xAxis:[{categories:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]}],
 	ttip:{sfx:" deg C"}},{source:"query",chartType:"spline",renderTo:"maxTemp",ttip:
 	{sfx:" deg C"},labels:{title:"Average maximum temperature"},plotOptions:{spline:
-	{marker:{enabled:false,states:{hover:{enabled:true,symbol:'circle',radius:5}}}}},yAxis:{title:{text:"deg C"}}}];
+	{marker:{enabled:false,states:{hover:{enabled:true,symbol:'circle',radius:5}}}}},yAxis:{title:{text: "deg C"}}}];
 var base = "http://www.bom.gov.au/jsp/ncc/cdio/weatherData/av?p_nccObsCode=136&p_display_type=dailyDataFile&p_startYear=&p_c=&p_stn_num=";
 require(["dojo/ready","esri/map","esri/tasks/query","esri/dijit/Geocoder","esri/layers/FeatureLayer",
 	"dijit/layout/BorderContainer","dijit/layout/ContentPane","dijit/TooltipDialog","dijit/Popup"],function() {
@@ -27,12 +27,14 @@ require(["dojo/ready","esri/map","esri/tasks/query","esri/dijit/Geocoder","esri/
 		dialog.setContent(evt.graphic.attributes["Site_name"]);
 		dijit.popup.open({popup:dialog,x:evt.pageX,y:evt.pageY});});
 	dojo.connect(ws,"onMouseOut",function(evt){map.setMapCursor("default");dijit.popup.close();});
-	dojo.connect(ws,"onLoad",function(){
+	dojo.connect(ws,"onLoad", function() {setTimeout(function(){
 	    var query = new esri.tasks.Query(); //prime the charts with a random station
 	    query.objectIds = [Math.floor(Math.random()*1417)]; //there are 1418 stations
 	    query.outFields = ["*"];
-	    ws.queryFeatures(query,function(featureSet){buildCharts(featureSet.features[0]);});
-	    dialog = new dijit.TooltipDialog({id:"tooltipDialog"});
+	    ws.queryFeatures(query, function(featureSet) {
+	    	buildCharts(featureSet.features[0]);
+	    });}, 1000);
+	    dialog = new dijit.TooltipDialog({id: "tooltipDialog"});
 	    dialog.startup();
 	});
 	var geocoder = new esri.dijit.Geocoder({map:map,autoComplete:true,
@@ -52,7 +54,6 @@ function buildCharts(graphic) { //build charts from this station's values
 	map.graphics.add(highlight);
 	$(charts).each(function(idx,hc){
 		hc.series = new Array();
-		hc.url = base + graphic.attributes["Site"];
 		if (hc.source == "pt") {
 			var attr = graphic.attributes;
 			for (var y = 0; y < hc.fields.length; y++) {
@@ -83,13 +84,9 @@ function buildCharts(graphic) { //build charts from this station's values
 }
 function drawChart(hc) {
 	var chart = new Highcharts.Chart({
-		credits: {
-		            text: 'Bureau of Meteorology',
-		            href: hc.url
-        },
 	    chart: {renderTo: hc.renderTo,defaultSeriesType: hc.chartType,
 	    	marginBottom: 50},legend: {enabled: false},title: {text: hc.labels.title},
-	    xAxis:hc.xAxis,yAxis: hc.yAxis,colors:['#4572A7','#AA4643'],
+	    xAxis:hc.xAxis,credits: {enabled: false},yAxis: hc.yAxis,colors:['#4572A7','#AA4643'],
 	    tooltip: {formatter: function () {return this.point.category+": "+this.point.y+hc.ttip.sfx;}},
 	    plotOptions: hc.plotOptions,series: hc.series});}
 function toggleWelcomeDialog() {$("#wd").is(':visible') ? $("#wd").hide() : $("#wd").show();}
