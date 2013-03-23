@@ -7,11 +7,11 @@ var map,dialog,selSym,hc,qt,tempQuery,charts=[{source:"pt",chartType:"column",re
 	"tempRange",labels:{title:"Average temperature range"},fields:[{flds:
 	["minJan","minFeb","minMar","minApr","minMay","minJun","minJul","minAug","minSep","minOct",
 	"minNov","minDec"]},{flds:["maxJan","maxFeb","maxMar","maxApr","maxMay","maxJun","maxJul",
-	"maxAug","maxSep","maxOct","maxNov","maxDec"]}],yAxis:{title:{text:"deg Celsius"}},
+	"maxAug","maxSep","maxOct","maxNov","maxDec"]}],yAxis:{title:{text:"°C"}},
 	xAxis:[{categories:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]}],
-	ttip:{sfx:" deg C"}},{source:"query",chartType:"spline",renderTo:"maxTemp",ttip:
-	{sfx:" deg C"},labels:{title:"Average maximum temperature"},plotOptions:{spline:
-	{marker:{enabled:false,states:{hover:{enabled:true,symbol:'circle',radius:5}}}}},yAxis:{title:{text: "deg C"}}}];
+	ttip:{sfx:" °C"}},{source:"query",chartType:"spline",renderTo:"maxTemp",ttip:
+	{sfx:" °C"},labels:{title:"Average maximum temperature"},plotOptions:{spline:
+	{marker:{enabled:false,states:{hover:{enabled:true,symbol:'circle',radius:5}}}}},yAxis:{title:{text: "°C"}}}];
 var base = "http://www.bom.gov.au/jsp/ncc/cdio/weatherData/av?p_nccObsCode=136&p_display_type=dailyDataFile&p_startYear=&p_c=&p_stn_num=";
 require(["dojo/ready","esri/map","esri/tasks/query","esri/dijit/Geocoder","esri/layers/FeatureLayer",
 	"dijit/layout/BorderContainer","dijit/layout/ContentPane","dijit/TooltipDialog","dijit/Popup"],function() {
@@ -33,7 +33,8 @@ require(["dojo/ready","esri/map","esri/tasks/query","esri/dijit/Geocoder","esri/
 	    query.outFields = ["*"];
 	    ws.queryFeatures(query, function(featureSet) {
 	    	buildCharts(featureSet.features[0]);
-	    });}, 1000);
+	    	$("#loading").hide();
+	    });}, 2000);
 	    dialog = new dijit.TooltipDialog({id: "tooltipDialog"});
 	    dialog.startup();
 	});
