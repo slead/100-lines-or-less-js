@@ -9,9 +9,23 @@ Best of luck!
 
 ![App](https://raw.github.com/Esri/100-lines-or-less-js/master/100-lines-or-less-js.png)
 
-## Current Entries
+## View the Current Entries
 
-Be the first to submit!
+1. [Meet Brazil](http://esri.github.com/100-lines-or-less-js/meet_brazil/index.html) by [marcos-fedato](http://github.com/marcos-fedato)
+2. [Maps Hangman Game](http://esri.github.com/100-lines-or-less-js/hangmanmap/hangmanmap.html) by [vmachuca](http://github.com/vmachuca)
+3. [Australian Climate Explorer](http://esri.github.com/100-lines-or-less-js/AustralianClimateExplorer/index.html) by [slead](http://github.com/slead)
+4. [LA County Parks Finder](http://esri.github.com/100-lines-or-less-js/SimpleLACountyParks/index.html) by [odoe](http://github.com/odoe)
+5. [Map Bookmarks](http://esri.github.com/100-lines-or-less-js/mapbook/index.html) by [davewilton](http://github.com/davewilton)
+6. [Esri Flickr Map](http://esri.github.com/100-lines-or-less-js/esriflickrmap/index.html) by [amshel](http://github.com/amshel)
+7. [County Destroyer!](http://esri.github.com/100-lines-or-less-js/CountyDestroyer/index.html) by [odoe](http://github.com/odoe)
+8. [Get me to the Summit](http://esri.github.com/100-lines-or-less-js/GetMeToTheDevSummit/index.html) by [raykendo](https://github.com/raykendo)
+9. [Facebook Page Finder](http://esri.github.com/100-lines-or-less-js/fb_page_locator/index.html) by [jmschmidt7](https://github.com/jmschmidt7)
+10. [Leafmap](http://esri.github.com/100-lines-or-less-js/leafmap/index.html) by [tmcs](https://github.com/tmcw)
+11. [Mobile Dev Agenda](http://esri.github.com/100-lines-or-less-js/MobileDevAgenda/DevAgenda.html) by [shadcampbell](https://github.com/shadcampbell)
+12. [Leap into ArcGIS](http://esri.github.com/100-lines-or-less-js/LeapInfoArcGIS/index.html) by [cbupp](https://github.com/cbupp)
+13. [Air quality Egg Viewer](http://esri.github.com/100-lines-or-less-js/AirQualityEggViewer/index.html) by [mpfeil](https://github.com/mpfeil)
+14. ...
+
 
 ## Contest Period
 - Starts: 9:00 AM PST Friday, Mar 8, 2013
@@ -112,5 +126,5 @@ limitations under the License.
 
 A copy of the license is available in the repository's [license.txt](https://raw.github.com/Esri/100-lines-or-less-js/master/license.txt) file.
 
-[](Esri Tags: ArcGIS Web Mapping Contest)
+[](Esri Tags: ArcGIS Web Mapping Contest 100-lines-or-less Code-Challenge)
 [](Esri Language: JavaScript)
