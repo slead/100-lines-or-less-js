@@ -11,12 +11,12 @@ require(["dojo/ready","dojo/_base/connect", "dojo/_base/array", "dojo/query",
   endtxt = new es.TextSymbol(tsjson).setText("END"),
   strtxt = new es.TextSymbol(tsjson).setText("START");
   io.proxyUrl = "../proxy/proxy.ashx"; io.alwaysUseProxy = false;
-  function selected (r) {if (r) { getDirections(r.feature.geometry); }};
+  function selected (r) {if (r) { getDirections(r.feature.geometry); }}
   function getDirections (point) {
     var rt, params = new esri.tasks.RouteParameters(), mg = map.graphics;
     if (start) {mg.remove(start); mg.remove(start2);}
-    start = map.graphics.add(new esri.Graphic(point, strtsym));
-    start2 = map.graphics.add(new esri.Graphic(point, strtxt));
+    start = mg.add(new esri.Graphic(point, strtsym));
+    start2 = mg.add(new esri.Graphic(point, strtxt));
     rt = new esri.tasks.RouteTask("http://tasks.arcgisonline.com/ArcGIS/"
     + "rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Long_Route");
     params.stops = new esri.tasks.FeatureSet();
@@ -28,10 +28,11 @@ require(["dojo/ready","dojo/_base/connect", "dojo/_base/array", "dojo/query",
     params.outSpatialReference = map.spatialReference;
 	domClass.add(d.body, "wait");
     rt.solve(params).then(showRoute, errHandler);
-  };
+  }
   function highLine (geometry) { var mg, ul, g = new esri.Graphic(geometry,
     new es.SimpleLineSymbol({color:[255,255,0],width: 4}));mg = map.graphics
-    mg.add(g);setTimeout(function(){mg.remove(g);}, 2000);}
+    mg.add(g);setTimeout(function(){mg.remove(g);}, 2000);
+  }
   function showRoute(solveResult) {
     var dir = solveResult.routeResults[0].directions, txt = "<p>${text}</p>"
 	  + "<span class='miles'>(${length} mi)</span>", il = dir.features.length;
@@ -53,7 +54,7 @@ require(["dojo/ready","dojo/_base/connect", "dojo/_base/array", "dojo/query",
 	  +dir.totalLength.toFixed(2) + " mi</span>";
     query(".fullroute").removeClass("hideme");
 	domClass.remove(d.body, "wait");
-  };
+  }
   function moveMap (newMapLoc, newDirLoc) {
     var frags = [d.createDocumentFragment(), d.createDocumentFragment()];
     frags[0].appendChild(dom.byId("map"));
@@ -62,7 +63,7 @@ require(["dojo/ready","dojo/_base/connect", "dojo/_base/array", "dojo/query",
     dom.byId(newMapLoc).appendChild(frags[0]);
     dom.byId(newDirLoc).appendChild(frags[1]);
     setTimeout(function(){map.resize();map.reposition();}, 100);
-  };
+  }
   function errHandler (err) { console.warn(err);}
   function onLoad (map) { end = new eg.Point(end); 
     map.graphics.add(new esri.Graphic(end, endtxt));
@@ -90,7 +91,7 @@ require(["dojo/ready","dojo/_base/connect", "dojo/_base/array", "dojo/query",
     query(".fullroute").on("click", function (e) { 
       if (route) { map.setExtent(route.geometry.getExtent(), true);}});
     on(dom.byId("gotoprint"), "click", function (e) { 
-      e.preventDefault();moveMap("map_here", "dir_here");});
+      moveMap("map_here", "dir_here");});
     on(dom.byId("gotoapp"), "click", function () {
       moveMap("map_container", "dir_container");});
     on(dom.byId("printnow"), "click", function(){window.print();});
