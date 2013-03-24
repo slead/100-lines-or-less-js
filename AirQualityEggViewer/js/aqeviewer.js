@@ -44,6 +44,12 @@ function addAQE(results)
 	{
 		map.graphics.add(new esri.Graphic(new esri.geometry.Point(data[i].location.lon, data[i].location.lat), eggicon, {"id":data[i].id,"title":data[i].title,"co":data[i].datastreams[0].id,"hum":data[i].datastreams[2].id,"no2":data[i].datastreams[3].id,"temp":data[i].datastreams[5].id}));
 	}
+	$('#loading').hide();
+	$('#welcomeDiv').append('<p><button type="button" onClick="hidewelcomeDiv()">Go & Explore</button></p>');
+}
+
+function hidewelcomeDiv() {
+	$('#welcomeDiv').hide();
 }
 
 function getTextContent() 
