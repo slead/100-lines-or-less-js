@@ -15,17 +15,17 @@
 </head>
   <body>
     <div id="container" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="gutters:false">
-      <div id="geocoder"></div>
+      <div id="GeoSearch"></div>
       <div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center'" style="overflow:hidden;">
       </div>
       <div id="floatingDiv">
 	      <div class="Title">Facebook Page Locator</div>
-          <div class="Labels">Buffer Distance (ft.):</div> 
-          <input type="text" id="buffer" value="3000"/><br/>
+          <div class="Labels">Buffer Distance (m):</div> 
+          <input type="text" id="buffer" class="updateOnChange" value="3000"/><br/>
           <div class="Labels">Search String:</div>
-          <input type="text" id="search" value=""/><br/>
+          <input type="text" id="search" class="updateOnChange" value=""/><br/>
           <div class="Labels"># of Results to Return:</div>
-          <input type="text" id="resultsToReturn" value="100"/><br/>
+          <input type="text" id="resultsToReturn" class="updateOnChange" value="100"/><br/>
       </div>
     </div>
   </body>
