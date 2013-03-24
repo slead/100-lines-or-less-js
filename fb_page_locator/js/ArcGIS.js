@@ -3,7 +3,7 @@ dojo.require("esri.dijit.Geocoder");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("esri.layers.osm");
 
-var map, pageLayer;
+var map, pageLayer, geocoder;
 
 dojo.ready(init);
 
@@ -21,13 +21,18 @@ function init() {
     getPages([extent.getCenter().getLatitude(),extent.getCenter().getLongitude()]
       ,$('#buffer').val(), $('#search').val(), $('#resultsToReturn').val());
   });
-  var geocoder = new esri.dijit.Geocoder({
+  $('.updateOnChange').change(function(){getPages([map.extent.getCenter().getLatitude()
+                      ,map.extent.getCenter().getLongitude()]
+                      ,$('#buffer').val(), $('#search').val()
+                      , $('#resultsToReturn').val())});
+  geocoder = new esri.dijit.Geocoder({
     map: map,
-    autocomplete: true,
-    esriGeocoder: {
-        name: "Esri World Geocoder"
+    autoComplete: true,
+    arcgisGeocoder: {
+        name: "Esri World Geocoder",
+        placeholder: "Find a Place"
       }
-    }, "geocoder");
+    }, "GeoSearch");
     geocoder.startup();
   }
 

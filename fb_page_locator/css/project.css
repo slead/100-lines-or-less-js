@@ -61,7 +61,7 @@ html, body {
     width: 175px;
 }
 
-#geocoder {
+#GeoSearch {
     display: block;
     position: absolute;
     z-index: 2;
