@@ -78,8 +78,9 @@ function buildCharts(graphic) { //build charts from this station's values
 				hc.xAxis = {"categories": cats,labels: {step: Math.round(cats.length/5)}};
 				hc.series[0] = new Object();
 				hc.series[0].data = data;
+				hc.hasError = false;
 				drawChart(hc);
-			});
+			}, function(error){hc.hasError = true;drawChart(hc);});
 		}
 	});
 }
@@ -89,6 +90,8 @@ function drawChart(hc) {
 	    	marginBottom: 50},legend: {enabled: false},title: {text: hc.labels.title},
 	    xAxis:hc.xAxis,credits: {enabled: false},yAxis: hc.yAxis,colors:['#4572A7','#AA4643'],
 	    tooltip: {formatter: function () {return this.point.category+": "+this.point.y+hc.ttip.sfx;}},
-	    plotOptions: hc.plotOptions,series: hc.series});}
+	    plotOptions: hc.plotOptions,series: hc.series});
+	hc.hasError ? chart.showLoading('Temperature trend data not available') : chart.hideLoading();
+}
 function toggleWelcomeDialog() {$("#wd").is(':visible') ? $("#wd").hide() : $("#wd").show();}
 $(document).on("click","#information",function() {toggleWelcomeDialog()});
