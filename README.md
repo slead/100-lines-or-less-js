@@ -22,7 +22,9 @@ Best of luck!
 9. [Facebook Page Finder](http://esri.github.com/100-lines-or-less-js/fb_page_locator/index.html) by [jmschmidt7](https://github.com/jmschmidt7)
 10. [Leafmap](http://esri.github.com/100-lines-or-less-js/leafmap/index.html) by [tmcs](https://github.com/tmcw)
 11. [Mobile Dev Agenda](http://esri.github.com/100-lines-or-less-js/MobileDevAgenda/DevAgenda.html) by [shadcampbell](https://github.com/shadcampbell)
-12. ...
+12. [Leap into ArcGIS](http://esri.github.com/100-lines-or-less-js/LeapInfoArcGIS/index.html) by [cbupp](https://github.com/cbupp)
+13. [Air quality Egg Viewer](http://esri.github.com/100-lines-or-less-js/AirQualityEggViewer/index.html) by [mpfeil](https://github.com/mpfeil)
+14. ...
 
 
 ## Contest Period
