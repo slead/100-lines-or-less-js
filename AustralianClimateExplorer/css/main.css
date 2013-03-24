@@ -129,3 +129,13 @@ a {
 	text-decoration: none;
 	color: #4572a7;
 }
+
+#loading {
+	background-image: url("spinner.gif");
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 15px;
+	bottom: 20px;
+	height: 16px;
+	width: 16px;
+}
