@@ -19,7 +19,7 @@ require(["dojo/ready","esri/map","esri/tasks/query","esri/dijit/Geocoder","esri/
 	selSym = new esri.symbol.SimpleMarkerSymbol().setStyle(
 		esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new dojo.Color([255,255,0,1]));
 	var ws = new esri.layers.FeatureLayer(
-		"http://services.azuron.com/arcgis/rest/services/weather/WeatherStations/MapServer/0",{
+		"http://services1.arcgis.com/XBDCraMz4XwnRrFo/ArcGIS/rest/services/WeatherStations/FeatureServer/0",{
 	    mode: esri.layers.FeatureLayer.MODE_ONDEMAND,outFields: ["*"],opacity: 0.75});
 	dojo.connect(map,"onLoad",function(){map.addLayer(ws);});
 	dojo.connect(ws,"onClick",function(evt){buildCharts(evt.graphic);});
@@ -41,7 +41,7 @@ require(["dojo/ready","esri/map","esri/tasks/query","esri/dijit/Geocoder","esri/
 	var geocoder = new esri.dijit.Geocoder({map:map,autoComplete:true,
 		arcgisGeocoder:{placeholder:"Find a place",sourceCountry:"AUS"}},"search");
     geocoder.startup();
-    qt = new esri.tasks.QueryTask("http://services.azuron.com/arcgis/rest/services/weather/WeatherStations/MapServer/1");
+    qt = new esri.tasks.QueryTask("http://services1.arcgis.com/XBDCraMz4XwnRrFo/ArcGIS/rest/services/WeatherStations/FeatureServer/1");
     tempQuery = new esri.tasks.Query();
     tempQuery.outFields = ["*"];
 });
